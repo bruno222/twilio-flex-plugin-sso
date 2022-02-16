@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Label, Stack } from '@twilio-paste/core';
+import { Button, HelpText, Input, Label, Stack } from '@twilio-paste/core';
 import { Box } from '@twilio-paste/core/box';
 import { ModalDialogPrimitiveOverlay, ModalDialogPrimitiveContent } from '@twilio-paste/modal-dialog-primitive';
 import { styled } from '@twilio-paste/styling-library';
@@ -83,11 +83,25 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
                 setRole(e.target.value);
               }}
             >
-              {/* More options here: https://www.twilio.com/docs/flex/admin-guide/setup/sso-configuration/insights-user-roles#understanding-flex-insights-roles */}
-              <Option value="agent">Agent</Option>
-              <Option value="supervisor,wfo.full_access">Supervisor with full access</Option>
-              <Option value="supervisor,wfo.team_leader">Supervisor with limited access</Option>
+              <Option value="agent">agent</Option>
+              <Option value="supervisor,wfo.full_access">supervisor, wfo.full_access</Option>
+              <Option value="supervisor,wfo.team_leader">supervisor, wfo.team_leader</Option>
+              <Option value="supervisor,wfo.data_analyst">supervisor, wfo.data_analyst</Option>
+              <Option value="supervisor,wfo.data_auditor">supervisor, wfo.data_auditor</Option>
+              <Option value="supervisor,wfo.quality_manager">supervisor, wfo.quality_manager</Option>
+              <Option value="supervisor,wfo.quality_process_manager">supervisor, wfo.quality_process_manager</Option>
+              <Option value="supervisor,wfo.dashboard_viewer">supervisor, wfo.dashboard_viewer</Option>
             </Select>
+
+            <HelpText variant="default">
+              <a
+                href="https://www.twilio.com/docs/flex/admin-guide/setup/sso-configuration/insights-user-roles#understanding-flex-insights-roles"
+                target="_blank"
+              >
+                Click here
+              </a>{' '}
+              to understand these Roles.
+            </HelpText>
           </Box>
           <Box textAlign="right" marginTop="space80">
             <Button variant="primary" loading={isLoading} onClick={onClick}>

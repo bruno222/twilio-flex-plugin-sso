@@ -97,9 +97,8 @@ We have to install 2 assets:
 ## TO DO
 
 - [Both] Tech Debt - Find TODO on the code and work on those;
-- [Plugin]: Tech Debt - Add a custom logout page;
-- [Plugin]: Tech Debt - Add more Role options when the Supervisor is adding Agents.
 - [Functions]: Tech Debt - SSO - Check the timeouts of the sessions;
 - [Functions]: Tech Debt - SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
+- [Functions]: Tech Debt - Verify - Check if we need to improve the security of Verify any further
 
 - [Both] Feature - Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
