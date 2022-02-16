@@ -17,11 +17,11 @@ Agent log in - Step 2:
 
 ## What
 
-This is a [Flex Plugin](https://www.twilio.com/docs/flex/developer/plugins) that allows the Supervisors of your Contact Center to add/remove Agents by their own without the need of having an SaaS Identity Provider (IdP) of the market to manage your Agents.
+This is a [Flex Plugin](https://www.twilio.com/docs/flex/developer/plugins) that allows the Supervisors of your Contact Center to add/remove Agents by their own without the need of having a SaaS Identity Provider (IdP) of the market to manage your Agents.
 
-Of course, if you already have an IdP - specially the ones we support on our [SSO configuration Page](https://www.twilio.com/docs/flex/admin-guide/setup/sso-configuration#configure-your-identity-provider-to-support-twilio-flex) - it makes no sense to use this Plugin.
+Of course, if you already have an IdP - especially the ones we support on our [SSO configuration Page](https://www.twilio.com/docs/flex/admin-guide/setup/sso-configuration#configure-your-identity-provider-to-support-twilio-flex) - it makes no sense to use this Plugin.
 
-This plugin is meant for those companies who do not have an IdP and wants to have Flex running as soon as possible!
+This plugin is meant for those companies who do not have an IdP and want to have Flex running as soon as possible!
 
 **Disclaimer**: Ask your Developers to validate this Plugin, this is not production-ready code!
 
@@ -31,14 +31,14 @@ This Plugin uses 100% with the Twilio Products and, therefore, it makes it easy 
 
 - It uses [Twilio Functions](https://www.twilio.com/docs/runtime/functions) to orchestrate the SSO validation;
 - It uses [Twilio Sync](https://www.twilio.com/sync) for storing the Agents;
-- It uses [Twilio Verify](https://www.twilio.com/verify) to validate the authenticy of the Agents logging into Flex;
-- It uses the new [Twilio Paste](https://paste.twilio.design) - that is the base for all future Flex Plugins;
+- It uses [Twilio Verify](https://www.twilio.com/verify) to validate the authenticity of the Agents logging into Flex;
+- It uses the new [Twilio Paste](https://paste.twilio.design) - which is the base for all future Flex Plugins;
 
 ## Oh, before installing it:
 
 You need to enable [Flex UI 2.0](https://www.npmjs.com/package/@twilio/flex-ui/v/2.0.0-alpha.12)
 
-It is in Private beta for now. Please ask your Twilio Account Execute if he/she can enabled it for your account and what are the risks.
+It is in Private beta for now. Please ask your Twilio Account Execute if he/she can enable it for your account and what are the risks.
 
 ## How to install it
 
@@ -53,7 +53,7 @@ We have to install 2 assets:
 2. execute `cd ./serverless-sso` to go to the Twilio Functions folder.
 3. `npm install` to install the packages into your computer.
 4. rename `.env-example` from this folder to `.env` and follow the instructions in the `.env` file.
-5. you have to generate the public/private pair keys for the SSO. Go to `./serverless-sso/src/assets` folder and execute the two comands below:
+5. you have to generate the public/private pair keys for the SSO. Go to `./serverless-sso/src/assets` folder and execute the two commands below:
 
    ```
    openssl genrsa -out privatekey.private.cer 1024
@@ -65,7 +65,7 @@ We have to install 2 assets:
 
 7. `npm run deploy` to deploy the functions to your Twilio environment.
 
-8. Quick test to see if you have done correctly until here. Open Chrome and check if you can visit your `https://xxxxxx.twil.io/sso/saml` - Change the `xxxxxx` to your environment that it was displayed in your Terminal from the step 7 above. You should see an error `ERR_REDIRECT_FLOW_BAD_ARGS`. For now, this means: **Success until here!**
+8. Quick test to see if you have done it correctly until here. Open Chrome and check if you can visit your `https://xxxxxx.twil.io/sso/saml` - Change the `xxxxxx` to your environment that was displayed in your Terminal from **step 7** above. You should see an error `ERR_REDIRECT_FLOW_BAD_ARGS`. For now, this means: **Success until here!**
 
 9. Now go to [Flex SSO configuration](https://console.twilio.com/us1/develop/flex/manage/single-sign-on?frameUrl=%2Fconsole%2Fflex%2Fsingle-sign-on%3Fx-target-region%3Dus1) to configure the SSO you just deployed with Flex. Configure with the values below:
 
@@ -91,7 +91,7 @@ We have to install 2 assets:
 6. You need the [Flex Plugins CLI](https://www.twilio.com/docs/flex/developer/plugins/cli/install) . Type `twilio plugins` to make sure you have it, if not, install it.
 7. You need to create a new profile for your Twilio CLI, type `twilio profiles:list` to check if you are using it correctly. If not, add a new profile with the cmd `twilio profiles:add`.
 8. `npm run deploy -- --changelog "first deployment!"` to deploy this Plugin.
-9. Once the **step 8** is finished, it will show the next steps, you will have to run the command mentioned there (something like `twilio flex:plugins:release ... etc etc`)
+9. Once **step 8** is finished, it will show the next steps, you will have to run the command mentioned there (something like `twilio flex:plugins:release ... etc etc`)
 10. We are done! Go to https://flex.twilio.com - You should see a new icon on the left-hand side. From there you can add/remove your Agents and ask them to visit the link mentioned on **step 10** to log in on Flex.
 
 ## TO DO
