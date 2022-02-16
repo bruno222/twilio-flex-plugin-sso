@@ -40,7 +40,7 @@ You need to enable [Flex UI 2.0](https://www.npmjs.com/package/@twilio/flex-ui/v
 
 It is in Private beta for now. Please ask your Twilio Account Execute if he/she can enable it for your account and what are the risks.
 
-## How to install it
+## How to install
 
 We have to install 2 assets:
 
@@ -79,12 +79,12 @@ We have to install 2 assets:
 
    - Hit `Save` button
 
-10. Final test: On this same Flex SSO configuraton page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://flex.twilio.com/indigo-barracuda-7959)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
+10. Final test: On this same Flex SSO configuraton page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://serverless-sso-6931-dev.twil.io/sso/login?id=blahtest&RelayState=blahtest)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
 
 #### To install the Flex Plugin:
 
 1. You already have cloned this repo;
-2. execute `cd ./flex-plugin-sso` to go to the Twilio Flex folder.
+2. execute `cd ./flex-plugin-sso` to go to the Plugin folder.
 3. `npm install` to install the packages into your computer.
 4. rename `.env-example` from this folder to `.env` and follow the instructions in the `.env` file.
 5. You need to have the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart). Type `twilio` in your terminal to see if you have it, if not, install it now.
