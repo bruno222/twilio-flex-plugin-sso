@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "ext": "ts",
+  "watch": "./src/functions",
+  "exec": "npm run build && twilio-run --functions-folder dist/functions --assets-folder dist/assets"
+}

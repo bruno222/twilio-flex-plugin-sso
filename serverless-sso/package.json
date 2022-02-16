@@ -1,0 +1,32 @@
+{
+  "name": "serverless-sso",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "tsc --noEmit",
+    "start": "nodemon",
+    "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets",
+    "build": "rm -rf ./dist && tsc && npm run build:copy-assets",
+    "build:copy-assets": "copyfiles src/assets/* src/assets/**/* --up 2 --exclude **/*.ts dist/assets/",
+    "predeploy": "npm run build"
+  },
+  "dependencies": {
+    "@twilio-labs/serverless-runtime-types": "^1.1",
+    "@twilio/runtime-handler": "1.1.2",
+    "@types/uuid": "^8.3.4",
+    "memoizerific": "^1.11.3",
+    "samlify": "^2.8.2",
+    "twilio": "^3.56",
+    "twilio-flex-token-validator": "^1.5.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.2.0",
+    "nodemon": "^2.0.12",
+    "twilio-run": "^3.2.1",
+    "typescript": "^3.9.10"
+  },
+  "engines": {
+    "node": "12"
+  }
+}
