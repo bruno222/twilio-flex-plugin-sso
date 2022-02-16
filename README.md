@@ -96,10 +96,12 @@ We have to install 2 assets:
 
 ## TO DO
 
-- [Tech Debt] Find TODO on the code and work on those;
-- [Tech Debt] SSO - Check the timeouts of the sessions;
-- [Tech Debt] SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
-- [Tech Debt] Tech Debt - Verify - Check if we need to improve the security of Verify any further
+- [Feature] When deleting an Agent, not only delete from Sync but also from TaskRouter.
 - [Feature] When adding a new Supervisor, display a checkbox to specify if this new Supervisor should be able to add other Agents or not.
 - [Feature] Create an UI for Audit, logging all the actions (add/delete/etc)
 - [Feature] Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
+
+- [Tech Debt] SSO - Check the timeouts of the sessions;
+- [Tech Debt] SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
+- [Tech Debt] Tech Debt - Verify - Check if we need to improve the security of Verify any further
+- [Tech Debt] Find TODO on the code and work on those;
