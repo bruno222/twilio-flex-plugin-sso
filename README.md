@@ -94,15 +94,14 @@ We have to install 2 assets:
 9. Once **step 8** is finished, it will show the next steps, you will have to run the command mentioned there (something like `twilio flex:plugins:release ... etc etc`)
 10. We are done! Go to https://flex.twilio.com - You should see a new icon on the left-hand side. From there you can add/remove your Agents and ask them to visit the link mentioned on **step 10** to log in on Flex.
 
-## TO DO
+## Roadmap
 
-- [Feature] When deleting an Agent, not only delete from Sync but also from TaskRouter.
-- [Feature] When adding a new Supervisor, display a checkbox to specify if this new Supervisor should be able to add other Agents or not.
-- [Feature] Create an UI for Audit, logging all the actions (add/delete/etc)
-- [Feature] Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
+- **[Feature]** When deleting an Agent, not only delete from Sync but also from TaskRouter.
+- **[Feature]** When adding a new Supervisor, display a checkbox to specify if this new Supervisor should be able to add other Agents or not.
+- **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
+- **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 
-- [Tech Debt] SSO - Check the timeouts of the sessions;
-- [Tech Debt] SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
-- [Tech Debt] Verify - Check if we need to improve the security of Verify any further
-- [Tech Debt] Find TODO on the code and work on those;
-- [Tech Debt] Remove Sync and store Agents in TaskRouter Workers only.
+- **[Tech Debt]** SSO - Check the timeouts of the sessions;
+- **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
+- **[Tech Debt]** Find TODO on the code and work on those;
+- **[Tech Debt]** Remove Sync and store Agents in TaskRouter Workers only.
