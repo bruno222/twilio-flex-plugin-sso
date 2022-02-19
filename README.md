@@ -96,7 +96,6 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** When deleting an Agent, not only delete from Sync but also from TaskRouter.
 - **[Feature]** When adding a new Supervisor, display a checkbox to specify if this new Supervisor should be able to add other Agents or not.
 - **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?

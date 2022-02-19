@@ -3,11 +3,11 @@ import memoizerific from 'memoizerific';
 const assets = Runtime.getAssets();
 import { validator } from 'twilio-flex-token-validator';
 import { ServerlessCallback } from '@twilio-labs/serverless-runtime-types/types';
-import Sync from 'twilio/lib/rest/Sync';
+import { Twilio as TwilioInterface } from 'twilio';
 
 export const MIN = 1000 * 60;
 
-export const startCachedStuff = <any>memoizerific(1)((twilioClient: any, SYNC_SERVICE_SID: string, DOMAIN_NAME: string) => {
+export const startCachedStuff = <any>memoizerific(1)((twilioClient: TwilioInterface, SYNC_SERVICE_SID: string, DOMAIN_NAME: string) => {
   //
   // Validations
   //
@@ -53,6 +53,15 @@ export const startCachedStuff = <any>memoizerific(1)((twilioClient: any, SYNC_SE
   const sp = ServiceProvider({ isAssertionEncrypted: false });
 
   return { idp, sp, sync };
+});
+
+export const TaskRouterClass = <any>memoizerific(1)(async (twilioClient: TwilioInterface) => {
+  const workspaces = await twilioClient.taskrouter.workspaces.list();
+  if (workspaces.length !== 1) {
+    throw new Error('Hum.. This is not a Flex account, is it? Why do you have more than one TaskRouter Workspace? You cant!');
+  }
+  const workspaceSid = workspaces[0].sid;
+  return twilioClient.taskrouter.workspaces(workspaceSid);
 });
 
 export const myRequire = (file: string) => {

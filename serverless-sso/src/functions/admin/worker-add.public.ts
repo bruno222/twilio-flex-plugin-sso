@@ -1,8 +1,8 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
-// import * as uuid from 'uuid';
+import { Helper } from '../utils/helper';
 
-const { ResponseOK, formatNumberToE164, ohNoCatch, SyncClass, isSupervisor } = require(Runtime.getFunctions()['utils/helper'].path);
+const { ResponseOK, formatNumberToE164, ohNoCatch, SyncClass, isSupervisor } = <Helper>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   name: string;
@@ -12,8 +12,6 @@ type MyEvent = {
 
 type MyContext = {
   SYNC_SERVICE_SID: string;
-  //   PASSWORD: string;
-  //   SEND_SMS_FROM_NUMBER: string;
 };
 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
