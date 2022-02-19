@@ -1,8 +1,8 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
-// import * as uuid from 'uuid';
+import { Helper } from '../utils/helper';
 
-const { ResponseOK, ohNoCatch, SyncClass, isSupervisor } = require(Runtime.getFunctions()['utils/helper'].path);
+const { TaskRouterClass, ResponseOK, ohNoCatch, SyncClass, isSupervisor } = <Helper>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   phoneNumber: string;
@@ -10,6 +10,19 @@ type MyEvent = {
 
 type MyContext = {
   SYNC_SERVICE_SID: string;
+};
+
+const deleteWorkerFromTaskrouter = async (twilioClient: any, friendlyName: string) => {
+  const taskrouter = await TaskRouterClass(twilioClient);
+  const workers = await taskrouter.workers.list({ friendlyName, limit: 1 });
+
+  // when user never logged in or it was deleted manually from Twilio Console
+  if (workers.length !== 1) {
+    return;
+  }
+
+  const { sid } = workers[0];
+  await taskrouter.workers(sid).remove();
 };
 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
@@ -27,6 +40,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
       throw new Error('"phoneNumber" is empty');
     }
 
+    await deleteWorkerFromTaskrouter(twilioClient, `user-${phoneNumber}`);
     await sync.deleteDocument(`user-${phoneNumber}`);
 
     return ResponseOK({ ok: 1 }, callback);

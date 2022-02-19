@@ -41,6 +41,7 @@ export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, 
     Audience: spEntityID,
     SubjectRecipient: spEntityID,
     NameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+    friendlyName: user.friendlyName,
     NameID: user.email,
     AGENT_NAME: user.name,
     AGENT_EMAIL: user.email,
@@ -113,7 +114,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const info = { extract };
     */
 
-    const user = { email: `invalid${phoneNumber}@twilio.com`, idSSO, name, role };
+    const user = { friendlyName: `user-${phoneNumber}`, email: `invalid${phoneNumber}@twilio.com`, idSSO, name, role };
     const binding = Constants.namespace.binding;
 
     const { context: SAMLResponse } = await idp.createLoginResponse(

@@ -6,7 +6,7 @@
   <saml2:Assertion ID="{AssertionID}" IssueInstant="{IssueInstant}" Version="2.0" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <saml2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">{Issuer}</saml2:Issuer>
     <saml2:Subject xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-      <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">{AGENT_EMAIL}</saml2:NameID>
+      <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">{friendlyName}</saml2:NameID>
       <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
         <saml2:SubjectConfirmationData InResponseTo="{InResponseTo}" NotOnOrAfter="{SubjectConfirmationDataNotOnOrAfter}" Recipient="https://iam.twilio.com/v1/Accounts/{ACCOUNT_SID}/saml2" />
       </saml2:SubjectConfirmation>

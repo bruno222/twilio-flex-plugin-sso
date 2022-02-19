@@ -1,7 +1,8 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
+import { Helper } from '../utils/helper';
 
-const { ResponseOK, isSupervisor, SyncClass, ohNoCatch } = require(Runtime.getFunctions()['utils/helper'].path);
+const { ResponseOK, isSupervisor, SyncClass, ohNoCatch } = <Helper>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   token: string;
