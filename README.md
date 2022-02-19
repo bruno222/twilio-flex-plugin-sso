@@ -104,4 +104,3 @@ We have to install 2 assets:
 - **[Tech Debt]** SSO - Check the timeouts of the sessions;
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
 - **[Tech Debt]** Find TODO on the code and work on those;
-- **[Tech Debt]** Remove Sync and store Agents in TaskRouter Workers only.
