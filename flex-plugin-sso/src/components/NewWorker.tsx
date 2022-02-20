@@ -43,7 +43,7 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
 
   const onClick = async () => {
     setIsLoading(true);
-    await apiSaveWorker(name, phoneNumber, role);
+    await apiSaveWorker(name, phoneNumber, role, canAddAgents);
     setIsLoading(false);
     refreshTable();
     handleClose();

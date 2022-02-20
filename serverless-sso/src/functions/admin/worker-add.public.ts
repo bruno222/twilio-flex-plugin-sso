@@ -8,6 +8,7 @@ type MyEvent = {
   name: string;
   phoneNumber: string;
   role: string;
+  canAddAgents: number;
 };
 
 type MyContext = {
@@ -23,7 +24,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const { SYNC_SERVICE_SID } = context;
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
 
-    const { name, phoneNumber: notNormalizedMobile, role } = event;
+    const { name, phoneNumber: notNormalizedMobile, role, canAddAgents } = event;
     const phoneNumber = formatNumberToE164(notNormalizedMobile);
 
     if (!name || !phoneNumber || !role) {
@@ -34,7 +35,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
       throw new Error("Invalid 'role'. Only 'agent' or 'supervisor, something' are valid.");
     }
 
-    await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role });
+    await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role, canAddAgents: !!+canAddAgents });
 
     return ResponseOK({ ok: 1 }, callback);
   } catch (e) {

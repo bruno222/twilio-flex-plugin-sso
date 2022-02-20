@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Box } from '@twilio-paste/core/box';
-import { Input } from '@twilio-paste/core/input';
-import { Menu, useMenuState, MenuButton, MenuItem, MenuSeparator } from '@twilio-paste/core/menu';
+import { Menu, useMenuState, MenuButton, MenuItem } from '@twilio-paste/core/menu';
 import { MoreIcon } from '@twilio-paste/icons/esm/MoreIcon';
-import { Select, Option } from '@twilio-paste/core/select';
 import { DataGrid, DataGridHead, DataGridRow, DataGridHeader, DataGridBody, DataGridCell } from '@twilio-paste/core/data-grid';
-import { Worker, apiDeleteWorker } from '../helpers/apis';
+import { Worker } from '../helpers/apis';
 
 interface Menu {
   phoneNumber: string;
@@ -18,7 +16,6 @@ const ActionMenu: React.FC<Menu> = ({ phoneNumber, handleDeleteWorker }) => {
   const onClick = (phoneNumber: string) => async () => {
     handleDeleteWorker(phoneNumber);
   };
-  console.log('menu', menu);
   return (
     <Box display="flex" justifyContent="center">
       <MenuButton {...menu} variant="reset" size="reset">
@@ -47,6 +44,7 @@ export const Grid: React.FC<GridProps> = ({ data, handleDeleteWorker }) => {
           <DataGridHeader data-testid="header-1">Agent name</DataGridHeader>
           <DataGridHeader>Phone Number</DataGridHeader>
           <DataGridHeader>Role</DataGridHeader>
+          <DataGridHeader>Can add/del Agents</DataGridHeader>
           <DataGridHeader textAlign="center">Actions</DataGridHeader>
         </DataGridRow>
       </DataGridHead>
@@ -56,6 +54,7 @@ export const Grid: React.FC<GridProps> = ({ data, handleDeleteWorker }) => {
             <DataGridCell key={`col1-${row.phoneNumber}`}>{row.name}</DataGridCell>
             <DataGridCell key={`col2-${row.phoneNumber}`}>{row.phoneNumber}</DataGridCell>
             <DataGridCell key={`col3-${row.phoneNumber}`}>{row.role}</DataGridCell>
+            <DataGridCell key={`col4-${row.phoneNumber}`}>{row.canAddAgents ? 'Yes' : 'No'}</DataGridCell>
             <DataGridCell key={`col-5`}>
               <ActionMenu phoneNumber={row.phoneNumber} handleDeleteWorker={handleDeleteWorker} />
             </DataGridCell>
