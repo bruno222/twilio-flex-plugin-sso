@@ -1,7 +1,8 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
+import * as HelperType from '../utils/helper.protected';
 
-const { ohNoCatch, formatNumberToE164, SyncClass } = require(Runtime.getFunctions()['utils/helper'].path);
+const { ohNoCatch, formatNumberToE164, SyncClass } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   phoneNumber: string;
@@ -23,7 +24,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const phoneNumber = formatNumberToE164(notNormalizedMobile);
 
     // Check if agent exists
-    await sync.getUser(phoneNumber);
+    const a = await sync.getUser(`user-${phoneNumber}`);
 
     // Send the Code
     const verification = await twilioClient.verify

@@ -5,6 +5,7 @@ export interface Worker {
   name: string;
   phoneNumber: string;
   role: string;
+  canAddAgents: boolean;
 }
 
 interface ListWorkers {
@@ -24,9 +25,9 @@ export const apiListWorkers = async (): Promise<Worker[]> => {
   }
 };
 
-export const apiSaveWorker = async (name: string, phoneNumber: string, role: string) => {
+export const apiSaveWorker = async (name: string, phoneNumber: string, role: string, canAddAgents: boolean) => {
   try {
-    await request('/admin/worker-add', { name, phoneNumber, role });
+    await request('/admin/worker-add', { name, phoneNumber, role, canAddAgents: +canAddAgents });
     Flex.Notifications.showNotification('ssoOK', { msg: `Agent ${name} was added.` });
   } catch (e: any) {
     Flex.Notifications.showNotification('ssoError', { msg: e.message });

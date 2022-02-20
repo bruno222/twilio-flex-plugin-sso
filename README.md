@@ -9,6 +9,7 @@ Supervisor adding a new Agent:
 ![Supervisor View 2](/screenshots/supervisor-view-screen2.png)
 
 Agent log in - Step 1:
+
 ![Agent login 1](/screenshots/agent-login-screen1.png)
 
 Agent log in - Step 2:
@@ -96,7 +97,6 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** When adding a new Supervisor, display a checkbox to specify if this new Supervisor should be able to add other Agents or not.
 - **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 

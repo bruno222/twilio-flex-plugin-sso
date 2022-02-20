@@ -12,7 +12,7 @@ export default ({ activeView }: Props) => {
 
   return (
     <SideLink showLabel={true} icon="DefaultAvatar" iconActive="DefaultAvatarBold" isActive={activeView === 'access-overview'} onClick={navigate}>
-      Sales Report
+      Manage Agents
     </SideLink>
   );
 };

@@ -31,6 +31,7 @@
       <saml2:Attribute Name="roles" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
         <saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">{AGENT_ROLE}</saml2:AttributeValue>
       </saml2:Attribute>
+      {otherAttributes}      
     </saml2:AttributeStatement>
   </saml2:Assertion>
 </saml2p:Response>
