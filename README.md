@@ -9,6 +9,7 @@ Supervisor adding a new Agent:
 ![Supervisor View 2](/screenshots/supervisor-view-screen2.png)
 
 Agent log in - Step 1:
+
 ![Agent login 1](/screenshots/agent-login-screen1.png)
 
 Agent log in - Step 2:

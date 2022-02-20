@@ -13,7 +13,18 @@ export default class FlexSsoPlugin extends FlexPlugin {
   }
 
   private isSupervisor(manager: Flex.Manager) {
-    return manager.workerClient.attributes.roles.includes('admin') || manager.workerClient.attributes.roles.includes('supervisor');
+    // admin role is when you log on Flex from Twilio Console
+    const { attributes } = manager.workerClient;
+    if (attributes.roles.includes('admin')) {
+      return true;
+    }
+
+    // check if the supervisor has "canAddAgents" flag.
+    if (attributes.roles.includes('supervisor') && attributes.canAddAgents) {
+      return true;
+    }
+
+    return false;
   }
 
   private registerAlerts(flex: typeof Flex, manager: Flex.Manager) {
