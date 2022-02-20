@@ -4,7 +4,7 @@ import * as uuid from 'uuid';
 import { SamlLib, Constants } from 'samlify';
 import * as HelperType from '../utils/helper.protected';
 
-const { ohNoCatch, formatNumberToE164, startCachedStuff } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
+const { SyncClass, ohNoCatch, formatNumberToE164, startCachedStuff } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   code: string;
@@ -15,10 +15,9 @@ type MyEvent = {
 
 type MyContext = {
   SYNC_SERVICE_SID: string;
-  PASSWORD: string;
+  SYNC_LIST_SID: string;
   DOMAIN_NAME: string;
   DOMAIN_WHILE_WORKING_LOCALLY?: string;
-  SEND_SMS_FROM_NUMBER: string;
   ACCOUNT_SID: string;
   VERIFY_SERVICE_SID: string;
 };
@@ -96,9 +95,10 @@ export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
   try {
     const twilioClient = context.getTwilioClient();
-    const { SYNC_SERVICE_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID } = context;
+    const { SYNC_SERVICE_SID, SYNC_LIST_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID } = context;
     const whichDomain = DOMAIN_WHILE_WORKING_LOCALLY ? DOMAIN_WHILE_WORKING_LOCALLY : DOMAIN_NAME;
-    const { idp, sp, sync } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
+    const { idp, sp } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
+    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     console.log('event:', event);
     const { idSSO, code, RelayState, phoneNumber: notNormalizedMobile } = event;

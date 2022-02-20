@@ -38,7 +38,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
 
     const { phoneNumber } = event;
 
-    const { name: supervisorName } = await isSupervisor(event, context, sync);
+    const { supervisorName } = await isSupervisor(event, context, sync);
 
     if (!phoneNumber) {
       throw new Error('"phoneNumber" is empty');

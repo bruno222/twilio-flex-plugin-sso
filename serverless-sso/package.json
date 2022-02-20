@@ -14,8 +14,8 @@
     "@twilio-labs/serverless-runtime-types": "^1.1",
     "@twilio/runtime-handler": "1.1.2",
     "memoizerific": "^1.11.3",
-    "samlify": "^2.8.2",
     "timeago.js": "^4.0.2",
+    "samlify": "^2.8.3",
     "twilio": "^3.56",
     "twilio-flex-token-validator": "^1.5.6",
     "uuid": "^8.3.2"

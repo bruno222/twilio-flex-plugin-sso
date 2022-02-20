@@ -74,7 +74,7 @@ We have to install 2 assets:
    - `IDENTITY PROVIDER ISSUER`: `https://xxxxxx.twil.io/sso/saml`
    - `SINGLE SIGN-ON URL`: `https://xxxxxx.twil.io/sso/saml`
    - `DEFAULT REDIRECT URL`: Leave it blank.
-   - `TWILIO SSO URL`: Uses iam.twilio.com
+   - `TWILIO SSO URL`: Use iam.twilio.com
    - `TRUSTED DOMAINS`: `xxxxxx.twil.io`
    - `Login using Popup`: `OFF`
 
@@ -97,7 +97,8 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
+- **[Feature]** Should we have here a way of defining Skills for the Agents? (why here and not on Teams view?)
+
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)

@@ -24,9 +24,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     await isSupervisor(event, context, sync);
-
     const auditLogs = await sync.listLogs();
-
     return ResponseOK({ auditLogs }, callback);
   } catch (e) {
     ohNoCatch(e, callback);

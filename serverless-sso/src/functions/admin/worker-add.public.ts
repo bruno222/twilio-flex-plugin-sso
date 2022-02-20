@@ -32,7 +32,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const { name, phoneNumber: notNormalizedMobile, role, canAddAgents } = event;
     const phoneNumber = formatNumberToE164(notNormalizedMobile);
 
-    const { name: supervisorName } = await isSupervisor(event, context, sync);
+    const { supervisorName } = await isSupervisor(event, context, sync);
 
     if (!name || !phoneNumber || !role) {
       throw new Error("Some fields came empty. Please check in the Network tab of Chrome. I need 'name', 'phoneNumber' and 'role'.");
