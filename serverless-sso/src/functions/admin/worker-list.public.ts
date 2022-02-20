@@ -1,8 +1,8 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
-import { Helper } from '../utils/helper';
+import * as HelperType from '../utils/helper.protected';
 
-const { ResponseOK, isSupervisor, SyncClass, ohNoCatch } = <Helper>require(Runtime.getFunctions()['utils/helper'].path);
+const { ResponseOK, isSupervisor, SyncClass, ohNoCatch } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   token: string;
@@ -17,11 +17,12 @@ type MyContext = {
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
   try {
     console.log('event:', event);
-    await isSupervisor(event, context);
 
     const twilioClient = context.getTwilioClient();
     const { SYNC_SERVICE_SID } = context;
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
+
+    await isSupervisor(event, context, sync);
 
     const users = await sync.listDocuments();
 

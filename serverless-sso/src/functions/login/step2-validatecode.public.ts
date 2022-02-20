@@ -2,8 +2,9 @@ import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
 import * as uuid from 'uuid';
 import { SamlLib, Constants } from 'samlify';
+import * as HelperType from '../utils/helper.protected';
 
-const { ohNoCatch, formatNumberToE164, startCachedStuff } = require(Runtime.getFunctions()['utils/helper'].path);
+const { ohNoCatch, formatNumberToE164, startCachedStuff } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   code: string;
@@ -84,7 +85,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     //
     // Get Agent
     //
-    const { name, role } = await sync.getUser(phoneNumber);
+    const { name, role } = await sync.getUser(`user-${phoneNumber}`);
 
     //
     // Validate Code
@@ -104,22 +105,12 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     //
     // SAML logic
     //
-    /*const extract = await sync.fetchDocument(idSSO);
-    console.log('extract', extract);
-
-    if (!extract) {
-      throw new Error('SSO session expired - Repeat the login process again and all good :-)');
-    }
-    
-    const info = { extract };
-    */
-
     const user = { friendlyName: `user-${phoneNumber}`, email: `invalid${phoneNumber}@twilio.com`, idSSO, name, role };
     const binding = Constants.namespace.binding;
 
     const { context: SAMLResponse } = await idp.createLoginResponse(
       sp,
-      {}, //info,
+      { test: 'bruno@esaml2.com' }, //info,
       'post',
       user,
       createTemplateCallback(ACCOUNT_SID, idp, sp, binding.post, user),

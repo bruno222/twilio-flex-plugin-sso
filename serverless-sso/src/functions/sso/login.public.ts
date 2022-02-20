@@ -7,8 +7,9 @@
 import '@twilio-labs/serverless-runtime-types';
 import { ServerlessCallback, ServerlessFunctionSignature } from '@twilio-labs/serverless-runtime-types/types';
 import { SamlLib } from 'samlify';
+import * as HelperType from '../utils/helper.protected';
 
-const { ohNoCatch, myRequire } = require(Runtime.getFunctions()['utils/helper'].path);
+const { ohNoCatch, myRequire } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
 
 type MyEvent = {
   id: string;

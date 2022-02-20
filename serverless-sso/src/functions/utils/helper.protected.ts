@@ -5,9 +5,15 @@ import { validator } from 'twilio-flex-token-validator';
 import { ServerlessCallback } from '@twilio-labs/serverless-runtime-types/types';
 import { Twilio as TwilioInterface } from 'twilio';
 
+interface User {
+  name: string;
+  role: string;
+  canAddAgents: boolean;
+}
+
 export const MIN = 1000 * 60;
 
-export const startCachedStuff = <any>memoizerific(1)((twilioClient: TwilioInterface, SYNC_SERVICE_SID: string, DOMAIN_NAME: string) => {
+export const startCachedStuff = memoizerific(1)((twilioClient: TwilioInterface, SYNC_SERVICE_SID: string, DOMAIN_NAME: string) => {
   //
   // Validations
   //
@@ -121,15 +127,16 @@ export class SyncClass {
     });
   }
 
-  async getUser(phoneNumber: string) {
+  // user format: `user-${phoneNumber}`
+  async getUser(user: string): Promise<User> {
     try {
       const {
-        data: { name, role },
-      } = await this.fetchDocument(`user-${phoneNumber}`);
+        data: { name, role, canAddAgents },
+      } = await this.fetchDocument(user);
       if (!name || !role) {
         throw new Error('Bug: Name of the agent or its role wasnt found.');
       }
-      return { name, role };
+      return { name, role, canAddAgents };
     } catch (e) {
       if (e.status === 404) {
         throw new Error('Agent not found using this phone number.');
@@ -148,14 +155,28 @@ type MyContext = {
   AUTH_TOKEN: string;
 };
 
-export const isSupervisor = async (event: MyEvent, context: MyContext) => {
-  const { roles, valid } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
+export const isSupervisor = async (event: MyEvent, context: MyContext, sync: SyncClass) => {
+  const { roles, valid, realm_user_id: user } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
+
   if (!valid) {
     throw new Error('Token not valid.');
   }
 
+  // check if token is not from an normal agent.
   if (!roles.includes('admin') && !roles.includes('supervisor')) {
     throw new Error('You are not an Admin nor Supervisor.');
+  }
+
+  // check if supervisor has access to add/del agents
+  if (roles.includes('supervisor')) {
+    if (!user || !user.startsWith('user-')) {
+      throw new Error('Strange, this supervisor does not have a valid realm_user_id.');
+    }
+
+    const { canAddAgents } = await sync.getUser(user);
+    if (!canAddAgents) {
+      throw new Error('This supervisor cannot manage (add/del/list) agents.');
+    }
   }
 };
 

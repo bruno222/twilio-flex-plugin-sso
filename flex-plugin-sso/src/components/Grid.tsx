@@ -44,7 +44,7 @@ export const Grid: React.FC<GridProps> = ({ data, handleDeleteWorker }) => {
           <DataGridHeader data-testid="header-1">Agent name</DataGridHeader>
           <DataGridHeader>Phone Number</DataGridHeader>
           <DataGridHeader>Role</DataGridHeader>
-          <DataGridHeader>Can add/del Agents</DataGridHeader>
+          <DataGridHeader>Can manage agents</DataGridHeader>
           <DataGridHeader textAlign="center">Actions</DataGridHeader>
         </DataGridRow>
       </DataGridHead>
