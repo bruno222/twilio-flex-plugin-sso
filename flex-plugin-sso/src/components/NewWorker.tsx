@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, HelpText, Input, Label, Stack } from '@twilio-paste/core';
+import { Button, Checkbox, HelpText, Input, Label } from '@twilio-paste/core';
 import { Box } from '@twilio-paste/core/box';
 import { ModalDialogPrimitiveOverlay, ModalDialogPrimitiveContent } from '@twilio-paste/modal-dialog-primitive';
 import { styled } from '@twilio-paste/styling-library';
@@ -38,6 +38,8 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
   const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [role, setRole] = React.useState('agent');
+  const [canAddAgents, setCanAddAgents] = React.useState(false);
+  const [isSupervisor, setSupervisor] = React.useState(false);
 
   const onClick = async () => {
     setIsLoading(true);
@@ -45,6 +47,17 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
     setIsLoading(false);
     refreshTable();
     handleClose();
+  };
+
+  const onChangeRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const _role = e.target.value;
+    const _isSupervisor = _role.startsWith('supervisor');
+    setRole(_role);
+    setSupervisor(_isSupervisor);
+
+    if (!_isSupervisor) {
+      setCanAddAgents(false);
+    }
   };
 
   return (
@@ -77,12 +90,7 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
           </Box>
           <Box marginTop="space80">
             <Label htmlFor="author">Role access</Label>
-            <Select
-              id="role"
-              onChange={(e) => {
-                setRole(e.target.value);
-              }}
-            >
+            <Select id="role" onChange={onChangeRole}>
               <Option value="agent">agent</Option>
               <Option value="supervisor,wfo.full_access">supervisor, wfo.full_access</Option>
               <Option value="supervisor,wfo.team_leader">supervisor, wfo.team_leader</Option>
@@ -103,10 +111,31 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
               to understand these Roles.
             </HelpText>
           </Box>
-          <Box textAlign="right" marginTop="space80">
-            <Button variant="primary" loading={isLoading} onClick={onClick}>
-              Save
-            </Button>
+          <Box marginTop="space80"></Box>
+          <Box marginTop="space80">
+            <Box
+              display="inline-block"
+              visibility={isSupervisor ? 'visible' : 'hidden'}
+              width="70%"
+              style={{ padding: '10px', backgroundColor: 'rgb(204 207 209)' }}
+            >
+              <Checkbox
+                id="canAddAgents"
+                value="canAddAgents"
+                name="canAddAgents"
+                checked={canAddAgents}
+                onChange={(event) => {
+                  setCanAddAgents(event.target.checked);
+                }}
+              >
+                <span style={{ fontWeight: 'bold' }}>{name}</span> can add/delete other agents.
+              </Checkbox>
+            </Box>
+            <Box display="inline-block" width="30%" textAlign="right">
+              <Button variant="primary" loading={isLoading} onClick={onClick}>
+                Save
+              </Button>
+            </Box>
           </Box>
         </Box>
       </StyledModalDialogContent>
