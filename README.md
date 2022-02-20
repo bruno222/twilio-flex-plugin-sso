@@ -100,6 +100,5 @@ We have to install 2 assets:
 - **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 
-- **[Tech Debt]** SSO - Check the timeouts of the sessions;
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
 - **[Tech Debt]** Find TODO on the code and work on those;
