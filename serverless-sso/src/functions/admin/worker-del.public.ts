@@ -11,6 +11,7 @@ type MyEvent = {
 
 type MyContext = {
   SYNC_SERVICE_SID: string;
+  SYNC_LIST_SID: string;
   ACCOUNT_SID: string;
   AUTH_TOKEN: string;
 };
@@ -32,19 +33,27 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
   try {
     console.log('event:', event);
     const twilioClient = context.getTwilioClient();
-    const { SYNC_SERVICE_SID } = context;
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
+    const { SYNC_SERVICE_SID, SYNC_LIST_SID } = context;
+    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     const { phoneNumber } = event;
 
-    await isSupervisor(event, context, sync);
+    const { name: supervisorName } = await isSupervisor(event, context, sync);
 
     if (!phoneNumber) {
       throw new Error('"phoneNumber" is empty');
     }
 
-    await deleteWorkerFromTaskrouter(twilioClient, `user-${phoneNumber}`);
-    await sync.deleteDocument(`user-${phoneNumber}`);
+    const user = `user-${phoneNumber}`;
+    const { name: agentName, role: roleAgent } = await sync.getUser(user);
+
+    await deleteWorkerFromTaskrouter(twilioClient, user);
+    await sync.deleteDocument(user);
+
+    await sync.addLog(
+      'admin',
+      `Supervisor "${supervisorName}" deleted "${agentName}" which had the cellphone "${phoneNumber}" and the role "${roleAgent}".`
+    );
 
     return ResponseOK({ ok: 1 }, callback);
   } catch (e) {

@@ -16,6 +16,7 @@ type MyEvent = {
 
 type MyContext = {
   SYNC_SERVICE_SID: string;
+  SYNC_LIST_SID: string;
   ACCOUNT_SID: string;
   AUTH_TOKEN: string;
 };
@@ -25,13 +26,13 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     console.log('event:', event);
 
     const twilioClient = context.getTwilioClient();
-    const { SYNC_SERVICE_SID } = context;
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
+    const { SYNC_SERVICE_SID, SYNC_LIST_SID } = context;
+    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     const { name, phoneNumber: notNormalizedMobile, role, canAddAgents } = event;
     const phoneNumber = formatNumberToE164(notNormalizedMobile);
 
-    await isSupervisor(event, context, sync);
+    const { name: supervisorName } = await isSupervisor(event, context, sync);
 
     if (!name || !phoneNumber || !role) {
       throw new Error("Some fields came empty. Please check in the Network tab of Chrome. I need 'name', 'phoneNumber' and 'role'.");
@@ -42,7 +43,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     }
 
     await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role, canAddAgents: !!+canAddAgents });
-
+    await sync.addLog('admin', `Supervisor "${supervisorName}" added "${name}" with the cellphone "${phoneNumber}" and the role "${role}".`);
     return ResponseOK({ ok: 1 }, callback);
   } catch (e) {
     ohNoCatch(e, callback);

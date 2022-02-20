@@ -144,6 +144,11 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
       RelayState as any
     );
 
+    //
+    // Log
+    //
+    await sync.addLog('login', `"${user.name}" logged in.`);
+
     return callback(null, { SAMLResponse });
   } catch (e) {
     ohNoCatch(e, callback);

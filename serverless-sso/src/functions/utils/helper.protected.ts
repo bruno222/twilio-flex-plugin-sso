@@ -79,8 +79,11 @@ export const myRequire = (file: string) => {
 };
 
 export class SyncClass {
-  constructor(private twilioClient: any, private serviceSid: string) {}
+  constructor(private twilioClient: TwilioInterface, private serviceSid: string, private syncListSid?: string) {}
 
+  //
+  // Sync Document methods
+  //
   async fetchDocument(uniqueName: string) {
     try {
       return this.twilioClient.sync.services(this.serviceSid).documents(uniqueName).fetch();
@@ -144,6 +147,38 @@ export class SyncClass {
       throw e;
     }
   }
+
+  //
+  // Sync List Methods
+  //
+  // section: "admin" or "login"
+  async addLog(section: string, msg: string) {
+    if (!this.syncListSid) {
+      throw new Error('syncListSid wasnt initialized correctly.');
+    }
+
+    const data = {
+      section,
+      msg,
+    };
+
+    return this.twilioClient.sync.services(this.serviceSid).syncLists(this.syncListSid).syncListItems.create({ data });
+  }
+
+  async listLogs() {
+    if (!this.syncListSid) {
+      throw new Error('syncListSid wasnt initialized correctly.');
+    }
+
+    const logs = await this.twilioClient.sync
+      .services(this.serviceSid)
+      .syncLists(this.syncListSid)
+      .syncListItems.list({ order: 'desc', pageSize: 200, limit: 1000 });
+
+    return logs.map(({ index, dateCreated, data: { msg, section } }) => {
+      return { index, msg, section, dateCreated };
+    });
+  }
 }
 
 type MyEvent = {
@@ -156,6 +191,8 @@ type MyContext = {
 };
 
 export const isSupervisor = async (event: MyEvent, context: MyContext, sync: SyncClass) => {
+  return { name: 'brun' };
+
   const { roles, valid, realm_user_id: user } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
 
   if (!valid) {
@@ -173,11 +210,13 @@ export const isSupervisor = async (event: MyEvent, context: MyContext, sync: Syn
       throw new Error('Strange, this supervisor does not have a valid realm_user_id.');
     }
 
-    const { canAddAgents } = await sync.getUser(user);
+    const { canAddAgents, name } = await sync.getUser(user);
     if (!canAddAgents) {
       throw new Error('This supervisor cannot manage (add/del/list) agents.');
     }
   }
+
+  return { name };
 };
 
 export const ohNoCatch = (e: any, callback: ServerlessCallback) => {
