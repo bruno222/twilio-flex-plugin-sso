@@ -74,7 +74,7 @@ We have to install 2 assets:
    - `IDENTITY PROVIDER ISSUER`: `https://xxxxxx.twil.io/sso/saml`
    - `SINGLE SIGN-ON URL`: `https://xxxxxx.twil.io/sso/saml`
    - `DEFAULT REDIRECT URL`: Leave it blank.
-   - `TWILIO SSO URL`: Uses iam.twilio.com
+   - `TWILIO SSO URL`: Use iam.twilio.com
    - `TRUSTED DOMAINS`: `xxxxxx.twil.io`
    - `Login using Popup`: `OFF`
 
