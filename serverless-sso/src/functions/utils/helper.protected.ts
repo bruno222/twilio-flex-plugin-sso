@@ -4,6 +4,7 @@ const assets = Runtime.getAssets();
 import { validator } from 'twilio-flex-token-validator';
 import { ServerlessCallback } from '@twilio-labs/serverless-runtime-types/types';
 import { Twilio as TwilioInterface } from 'twilio';
+import { format } from 'timeago.js';
 
 interface User {
   name: string;
@@ -17,15 +18,9 @@ export const startCachedStuff = memoizerific(1)((twilioClient: TwilioInterface, 
   //
   // Validations
   //
-  if (!SYNC_SERVICE_SID) {
-    throw new Error('SYNC_SERVICE_SID is null. Go to the ENVIRONMENTS and add a new entry there for the SYNC_SERVICE_SID.');
-  }
-
   if (!twilioClient) {
     throw new Error('twilioClient is null. How come?!');
   }
-
-  const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
 
   //
   // Assets
@@ -58,7 +53,7 @@ export const startCachedStuff = memoizerific(1)((twilioClient: TwilioInterface, 
 
   const sp = ServiceProvider({ isAssertionEncrypted: false });
 
-  return { idp, sp, sync };
+  return { idp, sp };
 });
 
 export const TaskRouterClass = <any>memoizerific(1)(async (twilioClient: TwilioInterface) => {
@@ -79,8 +74,11 @@ export const myRequire = (file: string) => {
 };
 
 export class SyncClass {
-  constructor(private twilioClient: any, private serviceSid: string) {}
+  constructor(private twilioClient: TwilioInterface, private serviceSid: string, private syncListSid?: string) {}
 
+  //
+  // Sync Document methods
+  //
   async fetchDocument(uniqueName: string) {
     try {
       return this.twilioClient.sync.services(this.serviceSid).documents(uniqueName).fetch();
@@ -144,6 +142,38 @@ export class SyncClass {
       throw e;
     }
   }
+
+  //
+  // Sync List Methods
+  //
+  // section: "admin" or "login"
+  async addLog(section: string, msg: string) {
+    if (!this.syncListSid) {
+      throw new Error('syncListSid wasnt initialized correctly.');
+    }
+
+    const data = {
+      section,
+      msg,
+    };
+
+    return this.twilioClient.sync.services(this.serviceSid).syncLists(this.syncListSid).syncListItems.create({ data });
+  }
+
+  async listLogs() {
+    if (!this.syncListSid) {
+      throw new Error('syncListSid wasnt initialized correctly.');
+    }
+
+    const logs = await this.twilioClient.sync
+      .services(this.serviceSid)
+      .syncLists(this.syncListSid)
+      .syncListItems.list({ order: 'desc', pageSize: 200, limit: 1000 });
+
+    return logs.map(({ index, dateCreated, data: { msg, section } }) => {
+      return { index, section, timeAgo: format(dateCreated), msg };
+    });
+  }
 }
 
 type MyEvent = {
@@ -156,7 +186,8 @@ type MyContext = {
 };
 
 export const isSupervisor = async (event: MyEvent, context: MyContext, sync: SyncClass) => {
-  const { roles, valid, realm_user_id: user } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
+  const { roles, valid, realm_user_id: user, identity } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
+  let supervisorName = identity; // when Admin role
 
   if (!valid) {
     throw new Error('Token not valid.');
@@ -173,11 +204,14 @@ export const isSupervisor = async (event: MyEvent, context: MyContext, sync: Syn
       throw new Error('Strange, this supervisor does not have a valid realm_user_id.');
     }
 
-    const { canAddAgents } = await sync.getUser(user);
+    const { canAddAgents, name } = await sync.getUser(user);
+    supervisorName = name; //when Supervisor role
     if (!canAddAgents) {
       throw new Error('This supervisor cannot manage (add/del/list) agents.');
     }
   }
+
+  return { supervisorName };
 };
 
 export const ohNoCatch = (e: any, callback: ServerlessCallback) => {

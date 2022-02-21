@@ -24,7 +24,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const twilioClient = context.getTwilioClient();
     const { SYNC_SERVICE_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY } = context;
     const whichDomain = DOMAIN_WHILE_WORKING_LOCALLY ? DOMAIN_WHILE_WORKING_LOCALLY : DOMAIN_NAME;
-    const { idp, sync } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
+    const { idp } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
 
     console.log('event:', event);
     const { SAMLRequest, RelayState } = event;
@@ -38,7 +38,6 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     });
 
     const id = extract.request.id;
-    // await sync.createDocument(id, extract, 30 * MIN);
 
     const response = new Twilio.Response();
     response.setStatusCode(301);

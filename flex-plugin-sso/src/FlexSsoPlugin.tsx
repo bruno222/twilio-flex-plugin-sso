@@ -2,7 +2,7 @@ import React from 'react';
 import * as Flex from '@twilio/flex-ui';
 import { FlexPlugin } from 'flex-plugin';
 import SideBarButton from './components/SideBarButton';
-import SsoComponent from './components/Panel';
+import Panel from './components/Panel';
 import { View } from '@twilio/flex-ui';
 
 const PLUGIN_NAME = 'FlexSsoPlugin';
@@ -55,7 +55,7 @@ export default class FlexSsoPlugin extends FlexPlugin {
 
     flex.ViewCollection.Content.add(
       <View name="access-overview" key="access-overview">
-        <SsoComponent key="SsoPage" />
+        <Panel key="SsoPage" />
       </View>
     );
 

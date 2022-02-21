@@ -1,4 +1,4 @@
-// import './styles.css';
+import './styles.css';
 import * as FlexPlugin from 'flex-plugin';
 import FlexSsoPlugin from './FlexSsoPlugin';
 

@@ -8,6 +8,10 @@ Supervisor adding a new Agent:
 
 ![Supervisor View 2](/screenshots/supervisor-view-screen2.png)
 
+Supervisor viewing the Audit Events
+
+![Supervisor View 3](/screenshots/supervisor-view-screen3.png)
+
 Agent log in - Step 1:
 
 ![Agent login 1](/screenshots/agent-login-screen1.png)
@@ -97,7 +101,8 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** Create an UI for Audit, logging all the actions (add/delete/etc)
+- **[Feature]** Should we have here a way of defining Skills for the Agents? (why here and not on Teams view?)
+
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
