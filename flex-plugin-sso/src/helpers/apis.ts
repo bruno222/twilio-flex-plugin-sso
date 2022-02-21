@@ -1,6 +1,12 @@
 import * as Flex from '@twilio/flex-ui';
 import { Manager } from '@twilio/flex-ui';
 
+export interface AuditLog {
+  index: number;
+  section: string;
+  timeAgo: string;
+  msg: string;
+}
 export interface Worker {
   name: string;
   phoneNumber: string;
@@ -15,10 +21,24 @@ interface ListWorkers {
   }[];
 }
 
-export const apiListWorkers = async (): Promise<Worker[]> => {
+interface ListAuditLogs {
+  auditLogs: AuditLog[];
+}
+
+export const apiListWorkers = async () => {
   try {
     const { users } = <ListWorkers>await request('/admin/worker-list');
     return users.map(({ data }) => data);
+  } catch (e: any) {
+    Flex.Notifications.showNotification('ssoError', { msg: e.message });
+    return [];
+  }
+};
+
+export const apiListAuditLogs = async () => {
+  try {
+    const { auditLogs } = <ListAuditLogs>await request(`/admin/auditlogs-list`);
+    return auditLogs;
   } catch (e: any) {
     Flex.Notifications.showNotification('ssoError', { msg: e.message });
     return [];

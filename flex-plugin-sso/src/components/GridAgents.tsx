@@ -35,7 +35,7 @@ interface GridProps {
   handleDeleteWorker: (phoneNumber: string) => void;
 }
 
-export const Grid: React.FC<GridProps> = ({ data, handleDeleteWorker }) => {
+export const GridAgents: React.FC<GridProps> = ({ data, handleDeleteWorker }) => {
   /* eslint-disable react/no-array-index-key */
   return (
     <DataGrid aria-label="User list" data-testid="data-grid">
