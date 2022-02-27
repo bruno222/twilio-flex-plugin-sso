@@ -32,7 +32,7 @@ This plugin is meant for those companies who do not have an IdP and want to have
 
 ## How it works
 
-This Plugin uses 100% with the Twilio Products and, therefore, it makes it easy to have it running quickly!
+This Plugin uses 100% of the Twilio Products and, therefore, makes it easy to have it running quickly!
 
 - It uses [Twilio Functions](https://www.twilio.com/docs/runtime/functions) to orchestrate the SSO validation;
 - It uses [Twilio Sync](https://www.twilio.com/sync) for storing the Agents;
