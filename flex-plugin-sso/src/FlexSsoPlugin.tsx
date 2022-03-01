@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Flex from '@twilio/flex-ui';
-import { FlexPlugin } from 'flex-plugin';
+import { FlexPlugin } from '@twilio/flex-plugin';
 import SideBarButton from './components/SideBarButton';
 import Panel from './components/Panel';
 import { View } from '@twilio/flex-ui';
