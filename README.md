@@ -68,6 +68,8 @@ We have to install 2 assets:
 
 6. You should now have two new files in the `assets` folder: `privatekey.private.cer` and `publickey.private.cer`. You know the rules, don't send this private key to anyone.
 
+6a. Open `publickey.private.cer` and delete the first and the last line, the `----BEGIN CERTIFICATE----` and `----END CERTIFICATE----`. This is needed due a small bug that I will fix it later, for now, just delete these 2 lines and save the file.
+
 7. `npm run deploy` to deploy the functions to your Twilio environment.
 
 8. Quick test to see if you have done it correctly until here. Open Chrome and check if you can visit your `https://xxxxxx.twil.io/sso/saml` - Change the `xxxxxx` to your environment that was displayed in your Terminal from **step 7** above. You should see an error `ERR_REDIRECT_FLOW_BAD_ARGS`. For now, this means: **Success until here!**
@@ -106,4 +108,7 @@ We have to install 2 assets:
 - **[Feature]** Should we create the concept of having multi-BPOs? To not allow Supervisor1 to see what the teams from Supervisor2 are doing?
 
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
+
 - **[Tech Debt]** Find TODO on the code and work on those;
+
+- **[Tech Debt]** Fix the small bug on step 6a, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...
