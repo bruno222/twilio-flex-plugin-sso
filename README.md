@@ -68,7 +68,7 @@ We have to install 2 assets:
 
 6. You should now have two new files in the `assets` folder: `privatekey.private.cer` and `publickey.private.cer`. You know the rules, don't send this private key to anyone.
 
-6a. Open `publickey.private.cer` and delete the first and the last line, the `----BEGIN CERTIFICATE----` and `----END CERTIFICATE----`. This is needed due a small bug that I will fix it later, for now, just delete these 2 lines and save the file.
+6. Open `publickey.private.cer` and delete the first and the last line, the `----BEGIN CERTIFICATE----` and `----END CERTIFICATE----`. This is needed due a small bug that I will fix it later, for now, just delete these 2 lines and save the file.
 
 7. `npm run deploy` to deploy the functions to your Twilio environment.
 
@@ -111,4 +111,4 @@ We have to install 2 assets:
 
 - **[Tech Debt]** Find TODO on the code and work on those;
 
-- **[Tech Debt]** Fix the small bug on step 6a, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...
+- **[Tech Debt]** Fix the small bug on step 6, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...
