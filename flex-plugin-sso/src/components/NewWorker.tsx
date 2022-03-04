@@ -5,6 +5,8 @@ import { ModalDialogPrimitiveOverlay, ModalDialogPrimitiveContent } from '@twili
 import { styled } from '@twilio-paste/styling-library';
 import { Select, Option } from '@twilio-paste/core/select';
 import { apiSaveWorker } from '../helpers/apis';
+import { Manager } from '@twilio/flex-ui';
+import { companies, hasManyCompanies } from '../helpers/config';
 
 interface BasicModalDialogProps {
   isOpen: boolean;
@@ -33,6 +35,10 @@ const StyledModalDialogContent = styled(ModalDialogPrimitiveContent)({
 });
 
 export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose, refreshTable }) => {
+  const { department_name } = Manager.getInstance().workerClient.attributes;
+  const supervisorDepartment = department_name || 'internal';
+  const [department, setDepartment] = React.useState(supervisorDepartment);
+
   const inputRef = React.useRef() as any;
   const [isLoading, setIsLoading] = React.useState(false);
   const [name, setName] = React.useState('');
@@ -43,10 +49,14 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
 
   const onClick = async () => {
     setIsLoading(true);
-    await apiSaveWorker(name, phoneNumber, role, canAddAgents);
+    await apiSaveWorker(name, phoneNumber, role, department, canAddAgents);
     setIsLoading(false);
     refreshTable();
     handleClose();
+  };
+
+  const onChangeDepartment = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDepartment(e.target.value);
   };
 
   const onChangeRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -88,6 +98,17 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
               }}
             />
           </Box>
+          {supervisorDepartment === 'internal' && hasManyCompanies ? (
+            <Box marginTop="space80">
+              <Label htmlFor="departmentName">From which company does this person belong?</Label>
+              <Select id="departmentName" onChange={onChangeDepartment}>
+                <Option value="internal">Internal employee</Option>
+                {Object.entries(companies).map(([id, name]) => {
+                  return <Option value={id}>{name}</Option>;
+                })}
+              </Select>
+            </Box>
+          ) : null}
           <Box marginTop="space80">
             <Label htmlFor="author">Role access</Label>
             <Select id="role" onChange={onChangeRole}>

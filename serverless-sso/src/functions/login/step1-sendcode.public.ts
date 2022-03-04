@@ -33,7 +33,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
       .verifications.create({ to: phoneNumber, channel: 'sms', locale: 'en' });
 
     // Log
-    await sync.addLog('login', `"${user.name}" has received the SMS code and is trying to login...`);
+    await sync.addLog('login', `"${user.name}" has received the SMS code and is trying to login...`, user.department);
 
     return callback(null, { ok: 1 });
   } catch (e) {
