@@ -111,4 +111,4 @@ We have to install 2 assets:
 
 - **[Tech Debt]** Fix the small bug on step 7, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...
 
-- **[Tech Debt]** On TeamView, do not allow an Supervisor from BPO1 see what other agents are doing
+- **[Tech Debt]** On TeamView, do not allow an Supervisor from BPO1 see what other agents are doing. If not "internal" company: remove the Insights tab for now.
