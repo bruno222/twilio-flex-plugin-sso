@@ -148,12 +148,13 @@ export class SyncClass {
   // Sync List Methods
   //
   // section: "admin" or "login"
-  async addLog(section: string, msg: string) {
+  async addLog(section: string, msg: string, department: string) {
     if (!this.syncListSid) {
       throw new Error('syncListSid wasnt initialized correctly.');
     }
 
     const data = {
+      department,
       section,
       msg,
     };
@@ -161,7 +162,7 @@ export class SyncClass {
     return this.twilioClient.sync.services(this.serviceSid).syncLists(this.syncListSid).syncListItems.create({ data });
   }
 
-  async listLogs() {
+  async listLogs(filterByDepartment: string) {
     if (!this.syncListSid) {
       throw new Error('syncListSid wasnt initialized correctly.');
     }
@@ -171,9 +172,11 @@ export class SyncClass {
       .syncLists(this.syncListSid)
       .syncListItems.list({ order: 'desc', pageSize: 200, limit: 1000 });
 
-    return logs.map(({ index, dateCreated, data: { msg, section } }) => {
-      return { index, section, timeAgo: format(dateCreated), msg };
-    });
+    return logs
+      .map(({ index, dateCreated, data: { msg, section, department } }) => {
+        return { index, section, timeAgo: format(dateCreated), msg, department };
+      })
+      .filter(({ department }) => filterByDepartment === 'internal' || filterByDepartment === department);
   }
 }
 
@@ -189,6 +192,7 @@ type MyContext = {
 export const isSupervisor = async (event: MyEvent, context: MyContext, sync: SyncClass) => {
   const { roles, valid, realm_user_id: user, identity } = <any>await validator(event.token, context.ACCOUNT_SID, context.AUTH_TOKEN);
   let supervisorName = identity; // when Admin role
+  let supervisorDepartment = 'internal';
 
   if (!valid) {
     throw new Error('Token not valid.');
@@ -205,14 +209,19 @@ export const isSupervisor = async (event: MyEvent, context: MyContext, sync: Syn
       throw new Error('Strange, this supervisor does not have a valid realm_user_id.');
     }
 
-    const { canAddAgents, name } = await sync.getUser(user);
+    const { canAddAgents, name, department } = await sync.getUser(user);
     supervisorName = name; //when Supervisor role
+    supervisorDepartment = department;
     if (!canAddAgents) {
       throw new Error('This supervisor cannot manage (add/del/list) agents.');
     }
+
+    if (!supervisorDepartment) {
+      throw new Error('This supervisor for some buggy-reason does not have an department configured. Undefined department may be insecure.');
+    }
   }
 
-  return { supervisorName };
+  return { supervisorName, supervisorDepartment };
 };
 
 export const ohNoCatch = (e: any, callback: ServerlessCallback) => {

@@ -5,6 +5,7 @@ import { ModalDialogPrimitiveOverlay, ModalDialogPrimitiveContent } from '@twili
 import { styled } from '@twilio-paste/styling-library';
 import { Select, Option } from '@twilio-paste/core/select';
 import { apiSaveWorker } from '../helpers/apis';
+import { Manager } from '@twilio/flex-ui';
 
 interface BasicModalDialogProps {
   isOpen: boolean;
@@ -33,12 +34,15 @@ const StyledModalDialogContent = styled(ModalDialogPrimitiveContent)({
 });
 
 export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose, refreshTable }) => {
+  const { department_name } = Manager.getInstance().workerClient.attributes;
+  const supervisorDepartment = department_name || 'internal';
+  const [department, setDepartment] = React.useState(supervisorDepartment);
+
   const inputRef = React.useRef() as any;
   const [isLoading, setIsLoading] = React.useState(false);
   const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [role, setRole] = React.useState('agent');
-  const [department, setDepartment] = React.useState('internal');
   const [canAddAgents, setCanAddAgents] = React.useState(false);
   const [isSupervisor, setSupervisor] = React.useState(false);
 
@@ -93,14 +97,16 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
               }}
             />
           </Box>
-          <Box marginTop="space80">
-            <Label htmlFor="departmentName">Which company this person belongs to?</Label>
-            <Select id="departmentName" onChange={onChangeDepartment}>
-              <Option value="internal">Internal employee</Option>
-              <Option value="bpo-spain">BPO in Spain</Option>
-              <Option value="bpo-germany">BPO in Germany</Option>
-            </Select>
-          </Box>
+          {supervisorDepartment === 'internal' ? (
+            <Box marginTop="space80">
+              <Label htmlFor="departmentName">From which company does this person belong?</Label>
+              <Select id="departmentName" onChange={onChangeDepartment}>
+                <Option value="internal">Internal employee</Option>
+                <Option value="bpo-spain">BPO in Spain</Option>
+                <Option value="bpo-germany">BPO in Germany</Option>
+              </Select>
+            </Box>
+          ) : null}
           <Box marginTop="space80">
             <Label htmlFor="author">Role access</Label>
             <Select id="role" onChange={onChangeRole}>

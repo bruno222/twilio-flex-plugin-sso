@@ -3,12 +3,14 @@ import { Manager } from '@twilio/flex-ui';
 
 export interface AuditLog {
   index: number;
+  department: string;
   section: string;
   timeAgo: string;
   msg: string;
 }
 export interface Worker {
   name: string;
+  department: string;
   phoneNumber: string;
   role: string;
   canAddAgents: boolean;

@@ -16,6 +16,7 @@ export const GridAuditlogs: React.FC<GridProps> = ({ data }) => {
       <DataGridHead>
         <DataGridRow>
           <DataGridHeader data-testid="header-1">When</DataGridHeader>
+          <DataGridHeader>From Company</DataGridHeader>
           <DataGridHeader>Section</DataGridHeader>
           <DataGridHeader>Event log</DataGridHeader>
         </DataGridRow>
@@ -24,6 +25,7 @@ export const GridAuditlogs: React.FC<GridProps> = ({ data }) => {
         {data.map((row, rowIndex) => (
           <DataGridRow key={`row-${rowIndex}`}>
             <DataGridCell key={`col1-${row.index}`}>{row.timeAgo}</DataGridCell>
+            <DataGridCell key={`col2-${row.index}`}>{row.department}</DataGridCell>
             <DataGridCell key={`col2-${row.index}`}>{row.section}</DataGridCell>
             <DataGridCell key={`col3-${row.index}`}>{row.msg}</DataGridCell>
           </DataGridRow>

@@ -22,9 +22,10 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const { SYNC_SERVICE_SID } = context;
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
 
-    await isSupervisor(event, context, sync);
+    const { supervisorDepartment } = await isSupervisor(event, context, sync);
 
-    const users = await sync.listDocuments();
+    const usersAll = await sync.listDocuments();
+    const users = usersAll.filter((user) => supervisorDepartment === 'internal' || supervisorDepartment === user.data.department);
 
     return ResponseOK({ users }, callback);
   } catch (e) {

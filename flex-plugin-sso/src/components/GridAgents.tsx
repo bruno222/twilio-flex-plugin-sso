@@ -42,6 +42,7 @@ export const GridAgents: React.FC<GridProps> = ({ data, handleDeleteWorker }) =>
       <DataGridHead>
         <DataGridRow>
           <DataGridHeader data-testid="header-1">Agent name</DataGridHeader>
+          <DataGridHeader>Company</DataGridHeader>
           <DataGridHeader>Phone Number</DataGridHeader>
           <DataGridHeader>Role</DataGridHeader>
           <DataGridHeader>Can manage agents</DataGridHeader>
@@ -52,6 +53,7 @@ export const GridAgents: React.FC<GridProps> = ({ data, handleDeleteWorker }) =>
         {data.map((row, rowIndex) => (
           <DataGridRow key={`row-${rowIndex}`}>
             <DataGridCell key={`col1-${row.phoneNumber}`}>{row.name}</DataGridCell>
+            <DataGridCell key={`col1-${row.phoneNumber}`}>{row.department}</DataGridCell>
             <DataGridCell key={`col2-${row.phoneNumber}`}>{row.phoneNumber}</DataGridCell>
             <DataGridCell key={`col3-${row.phoneNumber}`}>{row.role}</DataGridCell>
             <DataGridCell key={`col4-${row.phoneNumber}`}>{row.canAddAgents ? 'Yes' : 'No'}</DataGridCell>
