@@ -46,7 +46,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     // For security reasons, avoiding an Supervisor from BPO elevating his accesses
     const newWorkerDepartment = supervisorDepartment === 'internal' ? department : supervisorDepartment;
 
-    await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role, newWorkerDepartment, canAddAgents: !!+canAddAgents });
+    await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role, department: newWorkerDepartment, canAddAgents: !!+canAddAgents });
     await sync.addLog(
       'admin',
       `Supervisor "${supervisorName}" added "${name}" [cellphone: ${phoneNumber}] [role: ${role}] [company: ${department}].`,

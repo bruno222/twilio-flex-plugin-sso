@@ -6,6 +6,7 @@ import { styled } from '@twilio-paste/styling-library';
 import { Select, Option } from '@twilio-paste/core/select';
 import { apiSaveWorker } from '../helpers/apis';
 import { Manager } from '@twilio/flex-ui';
+import { companies, hasManyCompanies } from '../helpers/config';
 
 interface BasicModalDialogProps {
   isOpen: boolean;
@@ -97,13 +98,14 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
               }}
             />
           </Box>
-          {supervisorDepartment === 'internal' ? (
+          {supervisorDepartment === 'internal' && hasManyCompanies ? (
             <Box marginTop="space80">
               <Label htmlFor="departmentName">From which company does this person belong?</Label>
               <Select id="departmentName" onChange={onChangeDepartment}>
                 <Option value="internal">Internal employee</Option>
-                <Option value="bpo-spain">BPO in Spain</Option>
-                <Option value="bpo-germany">BPO in Germany</Option>
+                {Object.entries(companies).map(([id, name]) => {
+                  return <Option value={id}>{name}</Option>;
+                })}
               </Select>
             </Box>
           ) : null}
