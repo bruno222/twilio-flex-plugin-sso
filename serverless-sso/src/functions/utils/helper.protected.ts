@@ -10,6 +10,7 @@ interface User {
   name: string;
   role: string;
   canAddAgents: boolean;
+  department: string;
 }
 
 export const MIN = 1000 * 60;
@@ -129,12 +130,12 @@ export class SyncClass {
   async getUser(user: string): Promise<User> {
     try {
       const {
-        data: { name, role, canAddAgents },
+        data: { name, department, role, canAddAgents },
       } = await this.fetchDocument(user);
       if (!name || !role) {
         throw new Error('Bug: Name of the agent or its role wasnt found.');
       }
-      return { name, role, canAddAgents };
+      return { name, department, role, canAddAgents };
     } catch (e) {
       if (e.status === 404) {
         throw new Error('Agent not found using this phone number.');

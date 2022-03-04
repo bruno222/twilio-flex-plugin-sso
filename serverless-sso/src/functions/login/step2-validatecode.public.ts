@@ -71,6 +71,7 @@ export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, 
     AGENT_NAME: user.name,
     AGENT_EMAIL: user.email,
     AGENT_ROLE: user.role,
+    DEPARTMENT: user.department,
     Issuer: idp.entityMeta.getEntityID(),
     IssueInstant: now.toISOString(),
     ConditionsNotBefore: fiveMinutesAgo.toISOString(),
@@ -111,7 +112,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     //
     // Get Agent
     //
-    const { name, role, canAddAgents } = await sync.getUser(`user-${phoneNumber}`);
+    const { name, role, department, canAddAgents } = await sync.getUser(`user-${phoneNumber}`);
 
     //
     // Validate Code
@@ -131,7 +132,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     //
     // SAML logic
     //
-    const user = { friendlyName: `user-${phoneNumber}`, email: `invalid${phoneNumber}@twilio.com`, idSSO, name, role, canAddAgents };
+    const user = { friendlyName: `user-${phoneNumber}`, email: `invalid${phoneNumber}@twilio.com`, idSSO, name, department, role, canAddAgents };
     const binding = Constants.namespace.binding;
 
     const { context: SAMLResponse } = await idp.createLoginResponse(

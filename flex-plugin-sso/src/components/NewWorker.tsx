@@ -38,15 +38,20 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
   const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [role, setRole] = React.useState('agent');
+  const [department, setDepartment] = React.useState('internal');
   const [canAddAgents, setCanAddAgents] = React.useState(false);
   const [isSupervisor, setSupervisor] = React.useState(false);
 
   const onClick = async () => {
     setIsLoading(true);
-    await apiSaveWorker(name, phoneNumber, role, canAddAgents);
+    await apiSaveWorker(name, phoneNumber, role, department, canAddAgents);
     setIsLoading(false);
     refreshTable();
     handleClose();
+  };
+
+  const onChangeDepartment = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDepartment(e.target.value);
   };
 
   const onChangeRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,6 +92,14 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
                 setPhoneNumber(e.target.value);
               }}
             />
+          </Box>
+          <Box marginTop="space80">
+            <Label htmlFor="departmentName">Which company this person belongs to?</Label>
+            <Select id="departmentName" onChange={onChangeDepartment}>
+              <Option value="internal">Internal employee</Option>
+              <Option value="bpo-spain">BPO in Spain</Option>
+              <Option value="bpo-germany">BPO in Germany</Option>
+            </Select>
           </Box>
           <Box marginTop="space80">
             <Label htmlFor="author">Role access</Label>
