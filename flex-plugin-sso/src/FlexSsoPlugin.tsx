@@ -4,6 +4,7 @@ import { FlexPlugin } from '@twilio/flex-plugin';
 import SideBarButton from './components/SideBarButton';
 import Panel from './components/Panel';
 import { View } from '@twilio/flex-ui';
+import { hasManyCompanies } from './helpers/config';
 
 const PLUGIN_NAME = 'FlexSsoPlugin';
 
@@ -26,6 +27,23 @@ export default class FlexSsoPlugin extends FlexPlugin {
 
     return false;
   }
+
+  private applyTeamViewFilters = (flex: typeof Flex, manager: Flex.Manager) => {
+    // if "no bpo concept", if "admin role" or "supervisor role but internal", then no filter is applied
+    const { attributes } = manager.workerClient;
+    const { department_name, roles } = attributes;
+    if (!hasManyCompanies || roles.includes('admin') || department_name === 'internal') {
+      return;
+    }
+
+    // if department name is null when role = supervisor, something is wrong
+    if (!department_name) {
+      throw new Error('SSO Plugin: Ops, something is wrong. This Worker has no attribute "department_name". How come?!');
+    }
+
+    // apply the filter
+    flex.TeamsView.defaultProps.hiddenFilter = `data.attributes.department_name == "${department_name}"`;
+  };
 
   private registerAlerts(flex: typeof Flex, manager: Flex.Manager) {
     (manager.strings as any).ssoError = 'SSO Plugin Error: {{msg}}';
@@ -59,6 +77,7 @@ export default class FlexSsoPlugin extends FlexPlugin {
       </View>
     );
 
+    this.applyTeamViewFilters(flex, manager);
     this.registerAlerts(flex, manager);
   }
 }
