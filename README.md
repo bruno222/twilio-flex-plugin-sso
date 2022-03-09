@@ -103,11 +103,11 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** On TeamView, for the Internal Supervisors, create a multi-select filter called "Company" similar to [this example],(https://github.com/twilio-professional-services/plugin-team-view-filters), so Internal Supervisors can only see one of another BPO of their choice.
+- **[Feature]** multi-BPOs concept: on TeamView, for the Internal Supervisors, create a multi-select filter called "Company" similar to [this example],(https://github.com/twilio-professional-services/plugin-team-view-filters), so Internal Supervisors can only see one of another BPO of their choice.
 
-- **[Feature]** On RealTime Queue Dashboard, add the possibility to filter out only the queues from the BPO... Hiding the queues from others.
+- **[Feature]** multi-BPOs concept: in RealTime Queue Dashboard, add the possibility to filter out only the queues from the BPO... Hiding the queues from others.
 
-- **[Feature]** On Flex Insights, add the possibility to have reports of their own BPO.
+- **[Feature]** multi-BPOs concept: in the Flex Insights, add the possibility to have reports of their own BPO, using custom embedded dashboards.
 
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
 
