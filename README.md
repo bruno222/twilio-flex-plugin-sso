@@ -103,12 +103,14 @@ We have to install 2 assets:
 
 ## Roadmap
 
-- **[Feature]** Should we have here a way of defining Skills for the Agents? (why here and not on Teams view?)
+- **[Feature]** On TeamView, for the Internal Supervisors, create a multi-select filter called "Company" similar to [this example],(https://github.com/twilio-professional-services/plugin-team-view-filters), so Internal Supervisors can only see one of another BPO of their choice.
+
+- **[Feature]** On RealTime Queue Dashboard, add the possibility to filter out only the queues from the BPO... Hiding the queues from others.
+
+- **[Feature]** On Flex Insights, add the possibility to have reports of their own BPO.
 
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
 
 - **[Tech Debt]** Find TODO on the code and work on those;
 
 - **[Tech Debt]** Fix the small bug on step 7, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...
-
-- **[Tech Debt]** On TeamView, for the Internal Supervisors, create a multi-select filter called "Company" similar to [this example],(https://github.com/twilio-professional-services/plugin-team-view-filters), so Internal Supervisors can only see one of another BPO of their choice.
