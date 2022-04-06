@@ -257,7 +257,7 @@ export const formatNumberToE164 = (_phoneNumber: string) => {
     phoneNumber = phoneNumber.replace(re, subst);
   }
 
-  const regEx = /^\+[1-9]\d{10,14}$/;
+  const regEx = /^\+[1-9]\d{9,14}$/;
   if (!regEx.test(phoneNumber)) {
     throw new Error('This phone number does not seem to be formatted into the international E164 format.');
   }
