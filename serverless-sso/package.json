@@ -24,7 +24,7 @@
     "@types/uuid": "^8.3.4",
     "copyfiles": "^2.2.0",
     "nodemon": "^2.0.12",
-    "twilio-run": "^3.2.1",
+    "twilio-run": "^3.4.1",
     "typescript": "^3.9.10"
   },
   "engines": {
