@@ -84,7 +84,7 @@ We have to install 2 assets:
 
    - Hit `Save` button
 
-10. Final test: On this same Flex SSO configuraton page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://serverless-sso-6931-dev.twil.io/sso/login?id=blahtest&RelayState=blahtest)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
+10. Final test: On this same [Flex SSO configuration](https://console.twilio.com/us1/develop/flex/manage/single-sign-on?frameUrl=%2Fconsole%2Fflex%2Fsingle-sign-on%3Fx-target-region%3Dus1) page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://serverless-sso-6931-dev.twil.io/sso/login?id=blahtest&RelayState=blahtest)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
 
 #### To install the Flex Plugin:
 
