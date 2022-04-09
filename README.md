@@ -88,16 +88,15 @@ We have to install 2 assets:
 
 #### To install the Flex Plugin:
 
-1. You already have cloned this repo;
-2. execute `cd ./flex-plugin-sso` to go to the Plugin folder.
-3. `npm install` to install the packages into your computer.
-4. rename `.env-example` from this folder to `.env` and follow the instructions in the `.env` file.
-5. You need to have the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart). Type `twilio` in your terminal to see if you have it, if not, install it now.
-6. You need the [Flex Plugins CLI](https://www.twilio.com/docs/flex/developer/plugins/cli/install) . Type `twilio plugins` to make sure you have it, if not, install it.
-7. You need to create a new profile for your Twilio CLI, type `twilio profiles:list` to check if you are using it correctly. If not, add a new profile with the cmd `twilio profiles:add`.
-8. `npm run deploy -- --changelog "first deployment!"` to deploy this Plugin.
-9. Once **step 8** is finished, it will show the next steps, you will have to run the command mentioned there (something like `twilio flex:plugins:release ... etc etc`)
-10. We are done! Go to https://flex.twilio.com - You should see a new icon on the left-hand side. From there you can add/remove your Agents and ask them to visit the link mentioned on **step 10** to log in on Flex.
+1. execute `cd ./flex-plugin-sso` to go to the Plugin folder.
+2. `npm install` to install the packages into your computer.
+3. rename `.env-example` from this folder to `.env` and follow the instructions in the `.env` file.
+4. You need to have the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart). Type `twilio` in your terminal to see if you have it, if not, install it now.
+5. You need the [Flex Plugins CLI](https://www.twilio.com/docs/flex/developer/plugins/cli/install) . Type `twilio plugins` to make sure you have it, if not, install it.
+6. You need to create a new profile for your Twilio CLI, type `twilio profiles:list` to check if you are using it correctly. If not, add a new profile with the cmd `twilio profiles:add`.
+7. `npm run deploy -- --changelog "first deployment!"` to deploy this Plugin.
+8. Once **step 8** is finished, it will show the next steps, you will have to run the command mentioned there (something like `twilio flex:plugins:release ... etc etc`)
+9. We are done! Go to https://flex.twilio.com - You should see a new icon on the left-hand side. From there you can add/remove your Agents and ask them to visit the link mentioned on **step 10** to log in on Flex.
 
 ## Roadmap
 
