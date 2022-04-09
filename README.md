@@ -68,25 +68,23 @@ We have to install 2 assets:
 
 6. You should now have two new files in the `assets` folder: `privatekey.private.cer` and `publickey.private.cer`. You know the rules, don't send this private key to anyone.
 
-7. Open `publickey.private.cer` and delete the first and the last line, the `----BEGIN CERTIFICATE----` and `----END CERTIFICATE----`. This is needed due a small bug that I will fix it later, for now, just delete these 2 lines and save the file.
+7. `npm run deploy` to deploy the functions to your Twilio environment.
 
-8. `npm run deploy` to deploy the functions to your Twilio environment.
+8. Quick test to see if you have done it correctly until here. Open Chrome and check if you can visit your `https://xxxxxx.twil.io/sso/saml` - Change the `xxxxxx` to your environment that was displayed in your Terminal from **step 7** above. You should see an error `ERR_REDIRECT_FLOW_BAD_ARGS`. For now, this means: **Success until here!**
 
-9. Quick test to see if you have done it correctly until here. Open Chrome and check if you can visit your `https://xxxxxx.twil.io/sso/saml` - Change the `xxxxxx` to your environment that was displayed in your Terminal from **step 7** above. You should see an error `ERR_REDIRECT_FLOW_BAD_ARGS`. For now, this means: **Success until here!**
+9. Now go to [Flex SSO configuration](https://console.twilio.com/us1/develop/flex/manage/single-sign-on?frameUrl=%2Fconsole%2Fflex%2Fsingle-sign-on%3Fx-target-region%3Dus1) to configure the SSO you just deployed with Flex. Configure with the values below:
 
-10. Now go to [Flex SSO configuration](https://console.twilio.com/us1/develop/flex/manage/single-sign-on?frameUrl=%2Fconsole%2Fflex%2Fsingle-sign-on%3Fx-target-region%3Dus1) to configure the SSO you just deployed with Flex. Configure with the values below:
+   - `X.509 CERTIFICATE`: Put the content of `./src/assets/publickey.private.cer` there.
+   - `IDENTITY PROVIDER ISSUER`: `https://xxxxxx.twil.io/sso/saml`
+   - `SINGLE SIGN-ON URL`: `https://xxxxxx.twil.io/sso/saml`
+   - `DEFAULT REDIRECT URL`: Leave it blank.
+   - `TWILIO SSO URL`: Use iam.twilio.com
+   - `TRUSTED DOMAINS`: `xxxxxx.twil.io`
+   - `Login using Popup`: `OFF`
 
-    - `X.509 CERTIFICATE`: Put the content of `./src/assets/publickey.private.cer` there.
-    - `IDENTITY PROVIDER ISSUER`: `https://xxxxxx.twil.io/sso/saml`
-    - `SINGLE SIGN-ON URL`: `https://xxxxxx.twil.io/sso/saml`
-    - `DEFAULT REDIRECT URL`: Leave it blank.
-    - `TWILIO SSO URL`: Use iam.twilio.com
-    - `TRUSTED DOMAINS`: `xxxxxx.twil.io`
-    - `Login using Popup`: `OFF`
+   - Hit `Save` button
 
-    - Hit `Save` button
-
-11. Final test: On this same Flex SSO configuraton page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://serverless-sso-6931-dev.twil.io/sso/login?id=blahtest&RelayState=blahtest)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
+10. Final test: On this same Flex SSO configuraton page, there is a link saying `Login with SSO`: Open this link in Incognito on your Browser, that is the link your agents will use to login on Flex. If everything goes right, you should see the Login page ([like this one](https://serverless-sso-6931-dev.twil.io/sso/login?id=blahtest&RelayState=blahtest)) - You can even try to log in, you should receive an error saying "Agent not found" - This is fine for now.
 
 #### To install the Flex Plugin:
 
@@ -112,5 +110,3 @@ We have to install 2 assets:
 - **[Tech Debt]** SSO - Check if we need to improve the security further (like validating the cert of Twilio side or encrypting the SAML messages)
 
 - **[Tech Debt]** Find TODO on the code and work on those;
-
-- **[Tech Debt]** Fix the small bug on step 7, doing a simple str.replace('----BEGIN CERTIFICATE----') thing...

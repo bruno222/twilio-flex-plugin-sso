@@ -26,12 +26,16 @@ export const startCachedStuff = memoizerific(1)((twilioClient: TwilioInterface, 
   //
   // Assets
   //
-  const privateKey = myRequire('privatekey.cer');
-  const publicKey = myRequire('publickey.cer');
   const loginResponseTemplate = myRequire('template-saml-response.xml');
+  const privateKey = myRequire('privatekey.cer');
+
+  // for some strange reason, we have to remove the first and last line of the publickey...
+  const publicKey = myRequire('publickey.cer').replace('-----BEGIN CERTIFICATE-----', '').replace('-----END CERTIFICATE-----', '').trim();
 
   const metadataTemplate = myRequire('idpmeta.xml').trim();
   const metadata = SamlLib.replaceTagsByValue(metadataTemplate, { DOMAIN_NAME, publicKey });
+
+  console.log(metadata);
 
   //
   // Load IdP
