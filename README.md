@@ -12,13 +12,11 @@ Supervisor viewing the Audit Events
 
 ![Supervisor View 3](/.screenshots/supervisor-view-screen3.png)
 
-Agent log in - Step 1:
+Agent logging in:
 
-![Agent login 1](/.screenshots/agent-login-screen1.png)
-
-Agent log in - Step 2:
-
-![Agent login 2](/.screenshots/agent-login-screen2.png)
+<p align="center" width="100%">
+    <img width="70%" src=".screenshots/agent-login-screen1.png">
+</p>
 
 ## What
 
