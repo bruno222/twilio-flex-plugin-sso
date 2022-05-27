@@ -39,9 +39,7 @@ This Plugin uses 100% of the Twilio Products and, therefore, makes it easy to ha
 
 ## Oh, before installing it:
 
-You need to enable [Flex UI 2.0](https://www.npmjs.com/package/@twilio/flex-ui/v/2.0.0-alpha.12)
-
-It is in Private beta for now. Please ask your Twilio Account Execute if he/she can enable it for your account and what are the risks.
+You need to enable [Flex UI 2.0](https://www.twilio.com/changelog/flex-ui-20-is-now-in-public-beta), the newest version of Flex!
 
 ## How to install
 
