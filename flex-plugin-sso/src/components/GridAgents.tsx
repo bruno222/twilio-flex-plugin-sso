@@ -46,6 +46,7 @@ export const GridAgents: React.FC<GridProps> = ({ data, handleDeleteWorker }) =>
           <DataGridHeader data-testid="header-1">Agent name</DataGridHeader>
           {hasManyCompanies ? <DataGridHeader>Company</DataGridHeader> : null}
           <DataGridHeader>Phone Number</DataGridHeader>
+          <DataGridHeader>GBM ID</DataGridHeader>
           <DataGridHeader>Role</DataGridHeader>
           <DataGridHeader>Can manage agents</DataGridHeader>
           <DataGridHeader textAlign="center">Actions</DataGridHeader>
@@ -55,11 +56,12 @@ export const GridAgents: React.FC<GridProps> = ({ data, handleDeleteWorker }) =>
         {data.map((row, rowIndex) => (
           <DataGridRow key={`row-${rowIndex}`}>
             <DataGridCell key={`col1-${row.phoneNumber}`}>{row.name}</DataGridCell>
-            {hasManyCompanies ? <DataGridCell key={`col1-${row.phoneNumber}`}>{getCompanyName(row.department)}</DataGridCell> : null}
+            {hasManyCompanies ? <DataGridCell key={`col11-${row.phoneNumber}`}>{getCompanyName(row.department)}</DataGridCell> : null}
             <DataGridCell key={`col2-${row.phoneNumber}`}>{row.phoneNumber}</DataGridCell>
-            <DataGridCell key={`col3-${row.phoneNumber}`}>{row.role}</DataGridCell>
-            <DataGridCell key={`col4-${row.phoneNumber}`}>{row.canAddAgents ? 'Yes' : 'No'}</DataGridCell>
-            <DataGridCell key={`col-5`}>
+            <DataGridCell key={`col3-${row.phoneNumber}`}>{row.gbmId}</DataGridCell>
+            <DataGridCell key={`col4-${row.phoneNumber}`}>{row.role}</DataGridCell>
+            <DataGridCell key={`col5-${row.phoneNumber}`}>{row.canAddAgents ? 'Yes' : 'No'}</DataGridCell>
+            <DataGridCell key={`col-6`}>
               <ActionMenu phoneNumber={row.phoneNumber} handleDeleteWorker={handleDeleteWorker} />
             </DataGridCell>
           </DataGridRow>

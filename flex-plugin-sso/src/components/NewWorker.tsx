@@ -35,7 +35,7 @@ const StyledModalDialogContent = styled(ModalDialogPrimitiveContent)({
 });
 
 export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose, refreshTable }) => {
-  const { attributes } : { attributes: any } = Manager.getInstance().workerClient!;
+  const { attributes }: { attributes: any } = Manager.getInstance().workerClient!;
   const { department_name } = attributes;
   const supervisorDepartment = department_name || 'internal';
   const [department, setDepartment] = React.useState(supervisorDepartment);
@@ -44,13 +44,14 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
   const [isLoading, setIsLoading] = React.useState(false);
   const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [gbmId, setGbmId] = React.useState('');
   const [role, setRole] = React.useState('agent');
   const [canAddAgents, setCanAddAgents] = React.useState(false);
   const [isSupervisor, setSupervisor] = React.useState(false);
 
   const onClick = async () => {
     setIsLoading(true);
-    await apiSaveWorker(name, phoneNumber, role, department, canAddAgents);
+    await apiSaveWorker(name, phoneNumber, gbmId, role, department, canAddAgents);
     setIsLoading(false);
     refreshTable();
     handleClose();
@@ -96,6 +97,18 @@ export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose
               placeholder="+49123123123"
               onChange={(e) => {
                 setPhoneNumber(e.target.value);
+              }}
+            />
+          </Box>
+          <Box marginTop="space80">
+            <Label htmlFor="gbmId">Google Business Messages ID</Label>
+            <Input
+              id="gbmId"
+              name="gbmId"
+              type="text"
+              placeholder="gbm:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+              onChange={(e) => {
+                setGbmId(e.target.value);
               }}
             />
           </Box>
