@@ -25,7 +25,8 @@ export default class FlexSsoPlugin extends FlexPlugin {
   };
 
   private applyTeamViewFilters = (flex: typeof Flex, manager: Flex.Manager) => {
-    const { department_name } = manager.workerClient.attributes;
+    const { attributes } : { attributes: any } = manager.workerClient!;
+    const { department_name } = attributes;
 
     if (isWorkerInternal(flex, manager)) {
       return;

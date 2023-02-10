@@ -35,7 +35,8 @@ const StyledModalDialogContent = styled(ModalDialogPrimitiveContent)({
 });
 
 export const NewWorker: React.FC<BasicModalDialogProps> = ({ isOpen, handleClose, refreshTable }) => {
-  const { department_name } = Manager.getInstance().workerClient.attributes;
+  const { attributes } : { attributes: any } = Manager.getInstance().workerClient!;
+  const { department_name } = attributes;
   const supervisorDepartment = department_name || 'internal';
   const [department, setDepartment] = React.useState(supervisorDepartment);
 
