@@ -111,6 +111,5 @@ dist
 .next
 
 # Flex related ignore
-appConfig.js
 pluginsService.js
 build/
