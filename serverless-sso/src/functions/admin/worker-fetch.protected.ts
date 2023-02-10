@@ -24,7 +24,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
 
     const usersAll = await sync.listDocuments();
-    const user = usersAll.find((user) => user.data.phoneNumber === event.phoneNumber);
+    const user = usersAll.find((user: any) => user.data.phoneNumber === event.phoneNumber || user.data.gbmUser === event.phoneNumber);
 
     return ResponseOK({ user }, callback);
   } catch (e) {

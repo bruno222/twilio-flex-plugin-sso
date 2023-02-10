@@ -25,7 +25,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const { supervisorDepartment } = await isSupervisor(event, context, sync);
 
     const usersAll = await sync.listDocuments();
-    const users = usersAll.filter((user) => supervisorDepartment === 'internal' || supervisorDepartment === user.data.department);
+    const users = usersAll.filter((user: any) => supervisorDepartment === 'internal' || supervisorDepartment === user.data.department);
 
     return ResponseOK({ users }, callback);
   } catch (e) {
