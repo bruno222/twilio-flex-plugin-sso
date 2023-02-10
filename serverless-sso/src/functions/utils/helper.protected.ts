@@ -177,10 +177,10 @@ export class SyncClass {
       .syncListItems.list({ order: 'desc', pageSize: 200, limit: 1000 });
 
     return logs
-      .map(({ index, dateCreated, data: { msg, section, department } }) => {
+      .map(({ index, dateCreated, data: { msg, section, department } }: any) => {
         return { index, section, timeAgo: format(dateCreated), msg, department };
       })
-      .filter(({ department }) => filterByDepartment === 'internal' || filterByDepartment === department);
+      .filter(({ department }: any) => filterByDepartment === 'internal' || filterByDepartment === department);
   }
 }
 

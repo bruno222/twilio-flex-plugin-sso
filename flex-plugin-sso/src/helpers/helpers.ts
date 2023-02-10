@@ -15,7 +15,7 @@ export const getCompanyName = (id: string) => {
 
 export const isWorkerInternal = (flex: typeof Flex, manager: Flex.Manager) => {
   // if "no bpo concept", if "admin role" or "supervisor role but internal", then no filter is applied
-  const { attributes } = manager.workerClient;
+  const { attributes } : { attributes: any } = manager.workerClient!;
   const { department_name, roles } = attributes;
   if (!hasManyCompanies || roles.includes('admin') || department_name === 'internal') {
     return true;
@@ -31,7 +31,7 @@ export const isWorkerInternal = (flex: typeof Flex, manager: Flex.Manager) => {
 
 export const isSupervisor = (manager: Flex.Manager) => {
   // admin role is when you log on Flex from Twilio Console
-  const { attributes } = manager.workerClient;
+  const { attributes } : { attributes: any } = manager.workerClient!;
   if (attributes.roles.includes('admin')) {
     return true;
   }
