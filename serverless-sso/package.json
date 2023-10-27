@@ -16,7 +16,7 @@
     "memoizerific": "^1.11.3",
     "timeago.js": "^4.0.2",
     "samlify": "^2.8.6",
-    "twilio": "^3.76.1",
+    "twilio": "^4.6.0",
     "twilio-flex-token-validator": "^1.5.6",
     "uuid": "^8.3.2"
   },
