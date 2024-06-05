@@ -28,7 +28,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
 
     const twilioClient = context.getTwilioClient();
     const { SYNC_SERVICE_SID, SYNC_LIST_SID } = context;
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
+    const sync = new SyncClass(twilioClient as any, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     const { name, phoneNumber: notNormalizedMobile, role, department, canAddAgents } = event;
     const phoneNumber = formatNumberToE164(notNormalizedMobile);
@@ -46,7 +46,13 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     // For security reasons, avoiding an Supervisor from BPO elevating his accesses
     const newWorkerDepartment = supervisorDepartment === 'internal' ? department : supervisorDepartment;
 
-    await sync.createDocument(`user-${phoneNumber}`, { name, phoneNumber, role, department: newWorkerDepartment, canAddAgents: !!+canAddAgents });
+    await sync.createDocument(`user-${phoneNumber}`, {
+      name,
+      phoneNumber,
+      role,
+      department: newWorkerDepartment,
+      canAddAgents: !!+canAddAgents,
+    });
     await sync.addLog(
       'admin',
       `Supervisor "${supervisorName}" added "${name}" [cellphone: ${phoneNumber}] [role: ${role}] [company: ${department}].`,
