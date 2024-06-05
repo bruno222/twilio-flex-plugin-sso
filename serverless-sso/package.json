@@ -5,7 +5,7 @@
   "scripts": {
     "test": "tsc --noEmit",
     "start": "nodemon",
-    "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets",
+    "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder dist/assets --override-existing-project",
     "build": "rm -rf ./dist && tsc && npm run build:copy-assets",
     "build:copy-assets": "copyfiles src/assets/* src/assets/**/* --up 2 --exclude **/*.ts dist/assets/",
     "predeploy": "npm run build"
@@ -28,6 +28,6 @@
     "typescript": "^3.9.10"
   },
   "engines": {
-    "node": "14"
+    "node": "18"
   }
 }
