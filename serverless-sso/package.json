@@ -15,7 +15,7 @@
     "@twilio/runtime-handler": "2.0.0",
     "memoizerific": "^1.11.3",
     "timeago.js": "^4.0.2",
-    "samlify": "^2.8.6",
+    "samlify": "^2.8.9",
     "twilio": "^3.76.1",
     "twilio-flex-token-validator": "^1.5.7",
     "uuid": "^8.3.2"
