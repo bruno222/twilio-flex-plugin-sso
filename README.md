@@ -59,7 +59,7 @@ We have to install 2 assets:
    ```
    openssl genrsa -out privatekey.private.cer 1024
 
-   openssl req -new -x509 -key privatekey.private.cer -out publickey.private.cer -days 365
+   openssl req -new -x509 -key privatekey.private.cer -out publickey.private.cer -days 900
    ```
 
 6. You should now have two new files in the `assets` folder: `privatekey.private.cer` and `publickey.private.cer`. You know the rules, don't send this private key to anyone.
@@ -70,13 +70,12 @@ We have to install 2 assets:
 
 9. Now go to [Flex SSO configuration](https://console.twilio.com/us1/develop/flex/manage/single-sign-on?frameUrl=%2Fconsole%2Fflex%2Fsingle-sign-on%3Fx-target-region%3Dus1) to configure the SSO you just deployed with Flex. Configure with the values below:
 
-   - `X.509 CERTIFICATE`: Put the content of `./src/assets/publickey.private.cer` there.
-   - `IDENTITY PROVIDER ISSUER`: `https://xxxxxx.twil.io/sso/saml`
-   - `SINGLE SIGN-ON URL`: `https://xxxxxx.twil.io/sso/saml`
-   - `DEFAULT REDIRECT URL`: Leave it blank.
-   - `TWILIO SSO URL`: Use iam.twilio.com
-   - `TRUSTED DOMAINS`: `xxxxxx.twil.io`
-   - `Login using Popup`: `OFF`
+   - `X.509 Certificate`: Put the content of `./src/assets/publickey.private.cer` there.
+   - `Single sign-on URL`: `https://xxxxxx.twil.io/sso/saml`
+   - `Will you be hosting your own domain`: Leave it unchecked.
+   - `Trusted Domains`: (it is disabled)
+   - `Default redirect URL`: (it is disabled)
+   - `Login using Popup - On`: Leave it unchecked.
 
    - Hit `Save` button
 
