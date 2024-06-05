@@ -20,13 +20,14 @@ type MyContext = {
   SYNC_SERVICE_SID: string;
   DOMAIN_WHILE_WORKING_LOCALLY?: string;
   ACCOUNT_SID: string;
+  CONNECTION_ID: string;
 };
 
 const htmlTemplate = myRequire('template-login.html');
 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
   try {
-    const { DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID } = context;
+    const { DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, CONNECTION_ID } = context;
     const whichDomain = DOMAIN_WHILE_WORKING_LOCALLY ? DOMAIN_WHILE_WORKING_LOCALLY : DOMAIN_NAME;
 
     console.log('event login:', event);
@@ -34,6 +35,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     const toReplace = {
       DOMAIN_NAME: whichDomain,
       ACCOUNT_SID,
+      CONNECTION_ID
     };
 
     const html = SamlLib.replaceTagsByValue(htmlTemplate, toReplace);

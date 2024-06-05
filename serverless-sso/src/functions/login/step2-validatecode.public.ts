@@ -20,6 +20,7 @@ type MyContext = {
   DOMAIN_WHILE_WORKING_LOCALLY?: string;
   ACCOUNT_SID: string;
   VERIFY_SERVICE_SID: string;
+  CONNECTION_ID: string;
 };
 
 const addOtherAttributes = (user: any) => {
@@ -46,7 +47,7 @@ const addOtherAttributes = (user: any) => {
   return ret;
 };
 
-export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, _binding: any, user: any) => (template: any) => {
+export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, _binding: any, user: any, CONNECTION_ID: string) => (template: any) => {
   const _id = 'positron_' + uuid.v4().replace(/-/g, '').substring(0, 10);
   const now = new Date();
   const spEntityID = _sp.entityMeta.getEntityID();
@@ -85,6 +86,7 @@ export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, 
     attrUserName: 'mynameinsp',
     ACCOUNT_SID,
     otherAttributes,
+    CONNECTION_ID
   };
 
   return {
@@ -96,7 +98,7 @@ export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
   try {
     const twilioClient = context.getTwilioClient();
-    const { SYNC_SERVICE_SID, SYNC_LIST_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID } = context;
+    const { SYNC_SERVICE_SID, SYNC_LIST_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID, CONNECTION_ID} = context;
     const whichDomain = DOMAIN_WHILE_WORKING_LOCALLY ? DOMAIN_WHILE_WORKING_LOCALLY : DOMAIN_NAME;
     const { idp, sp } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
     const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
@@ -140,7 +142,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
       { test: 'bruno@esaml2.com' }, //info,
       'post',
       user,
-      createTemplateCallback(ACCOUNT_SID, idp, sp, binding.post, user),
+      createTemplateCallback(ACCOUNT_SID, idp, sp, binding.post, user, CONNECTION_ID),
       false,
       RelayState as any
     );

@@ -1,4 +1,4 @@
-<saml2p:Response Destination="https://iam.twilio.com/v1/Accounts/{ACCOUNT_SID}/saml2" ID="{ID}" InResponseTo="{InResponseTo}" IssueInstant="{IssueInstant}" Version="2.0" xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<saml2p:Response Destination="https://login.flex.us1.twilio.com/login/callback?connection={CONNECTION_ID}" ID="{ID}" InResponseTo="{InResponseTo}" IssueInstant="{IssueInstant}" Version="2.0" xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <saml2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">{Issuer}</saml2:Issuer>
   <saml2p:Status xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol">
     <saml2p:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
@@ -8,12 +8,12 @@
     <saml2:Subject xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
       <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">{friendlyName}</saml2:NameID>
       <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
-        <saml2:SubjectConfirmationData InResponseTo="{InResponseTo}" NotOnOrAfter="{SubjectConfirmationDataNotOnOrAfter}" Recipient="https://iam.twilio.com/v1/Accounts/{ACCOUNT_SID}/saml2" />
+        <saml2:SubjectConfirmationData InResponseTo="{InResponseTo}" NotOnOrAfter="{SubjectConfirmationDataNotOnOrAfter}" Recipient="https://login.flex.us1.twilio.com/login/callback?connection={CONNECTION_ID}" />
       </saml2:SubjectConfirmation>
     </saml2:Subject>
     <saml2:Conditions NotBefore="{ConditionsNotBefore}" NotOnOrAfter="{ConditionsNotOnOrAfter}" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
       <saml2:AudienceRestriction>
-        <saml2:Audience>https://iam.twilio.com/v1/Accounts/{ACCOUNT_SID}/saml2/metadata</saml2:Audience>
+        <saml2:Audience>urn:flex:{CONNECTION_ID}</saml2:Audience>
       </saml2:AudienceRestriction>
     </saml2:Conditions>
     <saml2:AuthnStatement AuthnInstant="{IssueInstant}" SessionIndex="{InResponseTo}" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
