@@ -18,7 +18,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
   try {
     const twilioClient = context.getTwilioClient();
     const { SYNC_SERVICE_SID, SYNC_LIST_SID, VERIFY_SERVICE_SID } = context;
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
+    const sync = new SyncClass(twilioClient as any, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     console.log('event:', event);
     const { phoneNumber: notNormalizedMobile } = event;

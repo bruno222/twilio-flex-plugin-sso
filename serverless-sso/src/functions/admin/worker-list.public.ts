@@ -20,7 +20,7 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
 
     const twilioClient = context.getTwilioClient();
     const { SYNC_SERVICE_SID } = context;
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID);
+    const sync = new SyncClass(twilioClient as any, SYNC_SERVICE_SID);
 
     const { supervisorDepartment } = await isSupervisor(event, context, sync);
 

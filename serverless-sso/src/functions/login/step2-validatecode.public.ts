@@ -4,7 +4,9 @@ import * as uuid from 'uuid';
 import { SamlLib, Constants } from 'samlify';
 import * as HelperType from '../utils/helper.protected';
 
-const { SyncClass, ohNoCatch, formatNumberToE164, startCachedStuff } = <typeof HelperType>require(Runtime.getFunctions()['utils/helper'].path);
+const { SyncClass, ohNoCatch, formatNumberToE164, startCachedStuff } = <typeof HelperType>(
+  require(Runtime.getFunctions()['utils/helper'].path)
+);
 
 type MyEvent = {
   code: string;
@@ -47,61 +49,63 @@ const addOtherAttributes = (user: any) => {
   return ret;
 };
 
-export const createTemplateCallback = (ACCOUNT_SID: string, idp: any, _sp: any, _binding: any, user: any, CONNECTION_ID: string) => (template: any) => {
-  const _id = 'positron_' + uuid.v4().replace(/-/g, '').substring(0, 10);
-  const now = new Date();
-  const spEntityID = _sp.entityMeta.getEntityID();
-  const idpSetting = idp.entitySetting;
-  const fiveMinutesLater = new Date(now.getTime());
-  fiveMinutesLater.setMinutes(fiveMinutesLater.getMinutes() + 5);
-  const fiveMinutesAgo = new Date(now.getTime());
-  fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
+export const createTemplateCallback =
+  (ACCOUNT_SID: string, idp: any, _sp: any, _binding: any, user: any, CONNECTION_ID: string) => (template: any) => {
+    const _id = 'positron_' + uuid.v4().replace(/-/g, '').substring(0, 10);
+    const now = new Date();
+    const spEntityID = _sp.entityMeta.getEntityID();
+    const idpSetting = idp.entitySetting;
+    const fiveMinutesLater = new Date(now.getTime());
+    fiveMinutesLater.setMinutes(fiveMinutesLater.getMinutes() + 5);
+    const fiveMinutesAgo = new Date(now.getTime());
+    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
 
-  const otherAttributes = addOtherAttributes(user);
+    const otherAttributes = addOtherAttributes(user);
 
-  // TODO: review and remove things that are not important in "tvalue" obj below.
-  const tvalue = {
-    ID: _id,
-    AssertionID: idpSetting.generateID ? idpSetting.generateID() : `${uuid.v4()}`,
-    Destination: _sp.entityMeta.getAssertionConsumerService(_binding), // https://iam.twilio.com/v1/Accounts/AC00f0d415f89de3c75e3d0310e8c89e7f/saml2
-    Audience: spEntityID,
-    SubjectRecipient: spEntityID,
-    NameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-    friendlyName: user.friendlyName,
-    NameID: user.email,
-    AGENT_NAME: user.name,
-    AGENT_EMAIL: user.email,
-    AGENT_ROLE: user.role,
-    DEPARTMENT: user.department,
-    Issuer: idp.entityMeta.getEntityID(),
-    IssueInstant: now.toISOString(),
-    ConditionsNotBefore: fiveMinutesAgo.toISOString(),
-    ConditionsNotOnOrAfter: fiveMinutesLater.toISOString(),
-    SubjectConfirmationDataNotOnOrAfter: fiveMinutesLater.toISOString(),
-    AssertionConsumerServiceURL: _sp.entityMeta.getAssertionConsumerService(_binding),
-    EntityID: spEntityID,
-    InResponseTo: user.idSSO,
-    StatusCode: 'urn:oasis:names:tc:SAML:2.0:status:Success',
-    attrUserEmail: 'myemailassociatedwithsp@sp.com',
-    attrUserName: 'mynameinsp',
-    ACCOUNT_SID,
-    otherAttributes,
-    CONNECTION_ID
+    // TODO: review and remove things that are not important in "tvalue" obj below.
+    const tvalue = {
+      ID: _id,
+      AssertionID: idpSetting.generateID ? idpSetting.generateID() : `${uuid.v4()}`,
+      Destination: _sp.entityMeta.getAssertionConsumerService(_binding), // https://iam.twilio.com/v1/Accounts/AC00f0d415f89de3c75e3d0310e8c89e7f/saml2
+      Audience: spEntityID,
+      SubjectRecipient: spEntityID,
+      NameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+      friendlyName: user.friendlyName,
+      NameID: user.email,
+      AGENT_NAME: user.name,
+      AGENT_EMAIL: user.email,
+      AGENT_ROLE: user.role,
+      DEPARTMENT: user.department,
+      Issuer: idp.entityMeta.getEntityID(),
+      IssueInstant: now.toISOString(),
+      ConditionsNotBefore: fiveMinutesAgo.toISOString(),
+      ConditionsNotOnOrAfter: fiveMinutesLater.toISOString(),
+      SubjectConfirmationDataNotOnOrAfter: fiveMinutesLater.toISOString(),
+      AssertionConsumerServiceURL: _sp.entityMeta.getAssertionConsumerService(_binding),
+      EntityID: spEntityID,
+      InResponseTo: user.idSSO,
+      StatusCode: 'urn:oasis:names:tc:SAML:2.0:status:Success',
+      attrUserEmail: 'myemailassociatedwithsp@sp.com',
+      attrUserName: 'mynameinsp',
+      ACCOUNT_SID,
+      otherAttributes,
+      CONNECTION_ID,
+    };
+
+    return {
+      id: _id,
+      context: SamlLib.replaceTagsByValue(template, tvalue),
+    };
   };
-
-  return {
-    id: _id,
-    context: SamlLib.replaceTagsByValue(template, tvalue),
-  };
-};
 
 export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (context, event, callback: ServerlessCallback) => {
   try {
     const twilioClient = context.getTwilioClient();
-    const { SYNC_SERVICE_SID, SYNC_LIST_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID, CONNECTION_ID} = context;
+    const { SYNC_SERVICE_SID, SYNC_LIST_SID, DOMAIN_NAME, DOMAIN_WHILE_WORKING_LOCALLY, ACCOUNT_SID, VERIFY_SERVICE_SID, CONNECTION_ID } =
+      context;
     const whichDomain = DOMAIN_WHILE_WORKING_LOCALLY ? DOMAIN_WHILE_WORKING_LOCALLY : DOMAIN_NAME;
-    const { idp, sp } = startCachedStuff(twilioClient, SYNC_SERVICE_SID, whichDomain);
-    const sync = new SyncClass(twilioClient, SYNC_SERVICE_SID, SYNC_LIST_SID);
+    const { idp, sp } = startCachedStuff(twilioClient as any, SYNC_SERVICE_SID, whichDomain);
+    const sync = new SyncClass(twilioClient as any, SYNC_SERVICE_SID, SYNC_LIST_SID);
 
     console.log('event:', event);
     const { idSSO, code, RelayState, phoneNumber: notNormalizedMobile } = event;
@@ -134,7 +138,15 @@ export const handler: ServerlessFunctionSignature<MyContext, MyEvent> = async (c
     //
     // SAML logic
     //
-    const user = { friendlyName: `user-${phoneNumber}`, email: `invalid${phoneNumber}@twilio.com`, idSSO, name, department, role, canAddAgents };
+    const user = {
+      friendlyName: `user-${phoneNumber}`,
+      email: `invalid${phoneNumber}@twilio.com`,
+      idSSO,
+      name,
+      department,
+      role,
+      canAddAgents,
+    };
     const binding = Constants.namespace.binding;
 
     const { context: SAMLResponse } = await idp.createLoginResponse(
