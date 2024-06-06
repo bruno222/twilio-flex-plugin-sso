@@ -13,7 +13,7 @@
   "dependencies": {
     "@twilio-labs/serverless-runtime-types": "^1.1",
     "twilio": "5.0.3",
-    "@twilio/runtime-handler": "2.0.0",
+    "@twilio/runtime-handler": "2.0.2",
     "memoizerific": "^1.11.3",
     "samlify": "^2.8.6",
     "timeago.js": "^4.0.2",
