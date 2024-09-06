@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@twilio-labs/serverless-runtime-types": "^1.1",
-    "twilio": "5.0.3",
+    "twilio": "5.3.0",
     "@twilio/runtime-handler": "2.0.0",
     "memoizerific": "^1.11.3",
     "samlify": "^2.8.6",
