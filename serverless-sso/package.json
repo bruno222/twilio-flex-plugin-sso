@@ -11,7 +11,7 @@
     "predeploy": "npm run build"
   },
   "dependencies": {
-    "@twilio-labs/serverless-runtime-types": "^1.1",
+    "@twilio-labs/serverless-runtime-types": "^3.0.0",
     "twilio": "5.0.3",
     "@twilio/runtime-handler": "2.0.0",
     "memoizerific": "^1.11.3",
